@@ -59,7 +59,8 @@ function processedColor(colorValue: any, prefixKey: string) {
     const value = colorValue[key]
     if (key === 'DEFAULT' && typeof value === 'string') {
       colorValue.DEFAULT = `hsl(var(${prefixKey}, ${value}))`
-    } else if (typeof value === 'object' && value !== null) {
+    }
+    else if (typeof value === 'object' && value !== null) {
       processedColor(value, `${prefixKey}-${key}`)
     }
   }
@@ -80,7 +81,8 @@ export function processTheme(theme: Theme) {
           processedTheme(cssVarValue, processCssVarKey, processed)
         }
       }
-    } else {
+    }
+    else {
       processed[':root'][`--${key}`] = value
     }
   }
@@ -96,11 +98,13 @@ function processedTheme(
     const value = colorValue[key]
     if (typeof value === 'object' && value !== null) {
       processedTheme(value, `${prefixKey}-${key}`, processed)
-    } else if (typeof value === 'string') {
+    }
+    else if (typeof value === 'string') {
       if (key === 'DEFAULT') {
         // :root 添加
         processed[':root'][prefixKey] = value
-      } else {
+      }
+      else {
         // .themeKey 添加
         processed[`.${key}`] = processed[`.${key}`] || {}
         processed[`.${key}`][prefixKey] = value
@@ -124,22 +128,25 @@ function processPlugin(themeConfig: Theme) {
 }
 
 function deepMerge<T extends Record<string, any>>(...args: T[]): T {
-  if (args.length < 2) return args[0]
+  if (args.length < 2)
+    return args[0]
   const target = args[0] || ({} as T)
   for (let i = 1; i < args.length; i++) {
     const source = args[i]
-    if (!source) continue
+    if (!source)
+      continue
     for (const key in source) {
       if (
-        source[key] &&
-        typeof source[key] === 'object' &&
-        !Array.isArray(source[key])
+        source[key]
+        && typeof source[key] === 'object'
+        && !Array.isArray(source[key])
       ) {
         ;(target as any)[key] = deepMerge(
           (target as any)[key] || {},
           (source as any)[key],
         )
-      } else {
+      }
+      else {
         ;(target as any)[key] = (source as any)[key]
       }
     }

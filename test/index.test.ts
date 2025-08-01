@@ -62,7 +62,7 @@ describe('should', () => {
       },
     },
     badge: {
-      accent: {
+      'accent': {
         DEFAULT: '240 4.8% 95.9%',
         dark: '240 3.7% 15.9%',
         foreground: {
@@ -70,11 +70,11 @@ describe('should', () => {
           dark: '0 0% 98%',
         },
       },
-      foreground: {
+      'foreground': {
         DEFAULT: '240 5.9% 10%',
         dark: '0 0% 98%',
       },
-      primary: {
+      'primary': {
         DEFAULT: '240 5.9% 10%',
         dark: '0 0% 98%',
         hover: {
@@ -86,7 +86,7 @@ describe('should', () => {
           dark: '240 5.9% 10%',
         },
       },
-      secondary: {
+      'secondary': {
         DEFAULT: '240 4.8% 95.9%',
         dark: '240 3.7% 15.9%',
         hover: {
@@ -98,7 +98,7 @@ describe('should', () => {
           dark: '0 0% 98%',
         },
       },
-      destructive: {
+      'destructive': {
         DEFAULT: '0 84.2% 60.2%',
         dark: '0 62.8% 30.6%',
         hover: {
