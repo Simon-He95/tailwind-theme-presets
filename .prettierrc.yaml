@@ -1,0 +1,7 @@
+singleQuote: true
+semi: true
+printWidth: 85
+trailingComma: none
+lines-between-class-members: always
+jsxSingleQuote: true
+tabWidth: 2

@@ -1,0 +1,83 @@
+{
+  "name": "tailwind-theme-preset",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "A Tailwind CSS plugin for unified theme management with automatic CSS variable generation, supporting multi-theme configurations and Shadcn/ui compatibility.",
+  "author": "Simon He",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/Simon-He95",
+  "homepage": "https://github.com/Simon-He95/tailwind-theme-preset#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Simon-He95/tailwind-theme-preset.git"
+  },
+  "bugs": "https://github.com/Simon-He95/tailwind-theme-preset/issues",
+  "keywords": [
+    "tailwindcss",
+    "theme",
+    "css-variables",
+    "dark-mode",
+    "shadcn",
+    "preset",
+    "multi-theme",
+    "typescript"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
+  "bin": {
+    "run": "./cli.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "npm run build -- --watch src",
+    "format": "prettier --cache --write .",
+    "lint": "eslint . --cache",
+    "lint:fix": "pnpm run lint --fix",
+    "prepublishOnly": "nr build",
+    "release": "bumpp && npm publish",
+    "start": "esno src/index.ts",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.19.0",
+    "@sxzz/prettier-config": "^2.2.3",
+    "@types/node": "^18.19.121",
+    "bumpp": "^8.2.1",
+    "eslint": "^9.32.0",
+    "lint-staged": "^13.3.0",
+    "picocolors": "^1.1.1",
+    "prettier": "^3.6.2",
+    "rimraf": "^3.0.2",
+    "tsdown": "^0.9.9",
+    "tsx": "^3.14.0",
+    "typescript": "^4.9.5",
+    "vitest": "^0.15.2"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write --cache --ignore-unknown"
+    ],
+    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
+  },
+  "prettier": "@sxzz/prettier-config"
+}
