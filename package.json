@@ -5,7 +5,7 @@
   "description": "A Tailwind CSS plugin for unified theme management with automatic CSS variable generation, supporting multi-theme configurations and Shadcn/ui compatibility.",
   "author": "Simon He",
   "license": "MIT",
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@9.15.9",
   "funding": "https://github.com/sponsors/Simon-He95",
   "homepage": "https://github.com/Simon-He95/tailwind-theme-preset#readme",
   "repository": {
