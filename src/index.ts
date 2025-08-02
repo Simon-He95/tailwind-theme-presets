@@ -1,7 +1,9 @@
+export type ColorValue = string | [string] | [string, 'rgb' | 'hsl' | ((prefixKey: string, value: string) => string) | undefined]
+
 export interface RecursiveRecord {
-  DEFAULT?: string
+  DEFAULT?: ColorValue
   dark?: string
-  [key: string]: string | RecursiveRecord | undefined
+  [key: string]: string | ColorValue | RecursiveRecord | undefined
 }
 export interface Theme {
   [key: string]: RecursiveRecord
@@ -44,7 +46,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
       for (const cssVarKey in value) {
         const colorKey = `${key}-${cssVarKey}`
         const colorValue = value[cssVarKey]
-        if (typeof colorValue === 'object') {
+        if (typeof colorValue === 'object' && !Array.isArray(colorValue)) {
           const processedValue = deepMerge({}, colorValue)
           colors[colorKey] = processedValue
           processedColor(processedValue, `--${colorKey}`)
@@ -59,18 +61,55 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
   function processedColor(colorValue: any, prefixKey: string) {
     for (const key in colorValue) {
       const value = colorValue[key]
-      if (key === 'DEFAULT' && typeof value === 'string') {
-        // 检查是否为已经是完整的颜色格式，不需要包装
-        const isCompleteColor
-          = /^(?:rgb|rgba|hsl|hsla)\s*\(/.test(value) // rgb(), rgba(), hsl(), hsla()
-            || /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value) // 十六进制
-            || /^var\s*\(/.test(value) // CSS 变量
 
-        if (isCompleteColor) {
-          colorValue.DEFAULT = `var(${prefixKey}, ${value})`
+      // 处理字符串或数组格式的颜色值
+      if (typeof value === 'string' || Array.isArray(value)) {
+        let colorString: string
+        let colorRule: string = options.colorRule || 'hsl'
+        let customHandler: ((prefixKey: string, value: string) => string) | undefined
+
+        // 处理新的数组格式
+        if (Array.isArray(value)) {
+          colorString = value[0]
+          const secondParam = value.length > 1 ? value[1] : undefined // 如果只有一个元素，默认为 undefined
+          if (typeof secondParam === 'string') {
+            colorRule = secondParam
+          }
+          else if (typeof secondParam === 'function') {
+            customHandler = secondParam
+          }
+          else if (secondParam === undefined) {
+            // 如果第二个参数是 undefined，表示不希望被包裹
+            colorValue[key] = `var(${prefixKey}${key === 'DEFAULT' ? '' : `-${key}`}, ${colorString})`
+            continue
+          }
+        }
+        else if (typeof value === 'string') {
+          colorString = value
         }
         else {
-          colorValue.DEFAULT = `${options.colorRule}(var(${prefixKey}, ${value}))`
+          continue
+        }
+
+        const currentPrefixKey = key === 'DEFAULT' ? prefixKey : `${prefixKey}-${key}`
+
+        // 如果有自定义处理函数，直接使用
+        if (customHandler) {
+          colorValue[key] = customHandler(currentPrefixKey, colorString)
+          continue
+        }
+
+        // 检查是否为已经是完整的颜色格式，不需要包装
+        const isCompleteColor
+          = /^(?:rgb|rgba|hsl|hsla)\s*\(/.test(colorString) // rgb(), rgba(), hsl(), hsla()
+            || /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(colorString) // 十六进制
+            || /^var\s*\(/.test(colorString) // CSS 变量
+
+        if (isCompleteColor) {
+          colorValue[key] = `var(${currentPrefixKey}, ${colorString})`
+        }
+        else {
+          colorValue[key] = `${colorRule}(var(${currentPrefixKey}, ${colorString}))`
         }
       }
       else if (typeof value === 'object' && value !== null) {
@@ -91,7 +130,7 @@ export function processTheme(theme: Theme) {
       for (const cssVarKey in value) {
         const cssVarValue = value[cssVarKey]
         const processCssVarKey = `--${key}-${cssVarKey}`
-        if (typeof cssVarValue === 'object') {
+        if (typeof cssVarValue === 'object' && !Array.isArray(cssVarValue)) {
           processedTheme(cssVarValue, processCssVarKey, processed)
         }
       }
@@ -110,7 +149,7 @@ function processedTheme(
 ) {
   for (const key in colorValue) {
     const value = colorValue[key]
-    if (typeof value === 'object' && value !== null) {
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       processedTheme(value, `${prefixKey}-${key}`, processed)
     }
     else if (typeof value === 'string') {

@@ -157,140 +157,140 @@ describe('should', () => {
       {
         "badge-accent": {
           "DEFAULT": "hsl(var(--badge-accent, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--badge-accent-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "hsl(var(--badge-accent-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--badge-accent-foreground-dark, 0 0% 98%))",
           },
         },
         "badge-destructive": {
           "DEFAULT": "hsl(var(--badge-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "hsl(var(--badge-destructive-dark, 0 62.8% 30.6%))",
           "foreground": {
             "DEFAULT": "hsl(var(--badge-destructive-foreground, 0 0% 98%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--badge-destructive-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
-            "dark": "0 62.8% 20.6%",
+            "dark": "hsl(var(--badge-destructive-hover-dark, 0 62.8% 20.6%))",
           },
         },
         "badge-foreground": {
           "DEFAULT": "hsl(var(--badge-foreground, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "hsl(var(--badge-foreground-dark, 0 0% 98%))",
         },
         "badge-primary": {
           "DEFAULT": "hsl(var(--badge-primary, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "hsl(var(--badge-primary-dark, 0 0% 98%))",
           "foreground": {
             "DEFAULT": "hsl(var(--badge-primary-foreground, 0 0% 98%))",
-            "dark": "240 5.9% 10%",
+            "dark": "hsl(var(--badge-primary-foreground-dark, 240 5.9% 10%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--badge-primary-hover-dark, 0 0% 98%))",
           },
         },
         "badge-ring-destructive": {
           "DEFAULT": "hsl(var(--badge-ring-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "hsl(var(--badge-ring-destructive-dark, 0 62.8% 30.6%))",
         },
         "badge-secondary": {
           "DEFAULT": "hsl(var(--badge-secondary, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--badge-secondary-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "hsl(var(--badge-secondary-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--badge-secondary-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
-            "dark": "240 3.7% 15.9%",
+            "dark": "hsl(var(--badge-secondary-hover-dark, 240 3.7% 15.9%))",
           },
         },
         "btn-accent": {
           "DEFAULT": "hsl(var(--btn-accent, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--btn-accent-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "hsl(var(--btn-accent-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--btn-accent-foreground-dark, 0 0% 98%))",
           },
         },
         "btn-background": {
           "DEFAULT": "hsl(var(--btn-background, 0 0% 100%))",
-          "dark": "240 10% 3.9%",
+          "dark": "hsl(var(--btn-background-dark, 240 10% 3.9%))",
         },
         "btn-destructive": {
           "DEFAULT": "hsl(var(--btn-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "hsl(var(--btn-destructive-dark, 0 62.8% 30.6%))",
           "foreground": {
             "DEFAULT": "hsl(var(--btn-destructive-foreground, 0 0% 98%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--btn-destructive-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
-            "dark": "0 62.8% 20.6%",
+            "dark": "hsl(var(--btn-destructive-hover-dark, 0 62.8% 20.6%))",
           },
         },
         "btn-input": {
           "DEFAULT": "hsl(var(--btn-input, 240 5.9% 90%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--btn-input-dark, 240 3.7% 15.9%))",
         },
         "btn-primary": {
           "DEFAULT": "hsl(var(--btn-primary, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "hsl(var(--btn-primary-dark, 0 0% 98%))",
           "foreground": {
             "DEFAULT": "hsl(var(--btn-primary-foreground, 0 0% 98%))",
-            "dark": "240 5.9% 10%",
+            "dark": "hsl(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--btn-primary-hover-dark, 0 0% 98%))",
           },
         },
         "btn-ring": {
           "DEFAULT": "hsl(var(--btn-ring, 240 5.9% 10%))",
-          "dark": "240 4.9% 83.9%",
+          "dark": "hsl(var(--btn-ring-dark, 240 4.9% 83.9%))",
         },
         "btn-secondary": {
           "DEFAULT": "hsl(var(--btn-secondary, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--btn-secondary-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "hsl(var(--btn-secondary-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--btn-secondary-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
-            "dark": "240 3.7% 15.9%",
+            "dark": "hsl(var(--btn-secondary-hover-dark, 240 3.7% 15.9%))",
           },
         },
         "card-card": {
           "DEFAULT": "hsl(var(--card-card, 0 0% 100%))",
-          "dark": "240 10% 3.9%",
+          "dark": "hsl(var(--card-card-dark, 240 10% 3.9%))",
           "foreground": {
             "DEFAULT": "hsl(var(--card-card-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--card-card-foreground-dark, 0 0% 98%))",
           },
         },
         "checkbox-checkbox": {
           "primary": {
             "DEFAULT": "hsl(var(--checkbox-checkbox-primary, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "hsl(var(--checkbox-checkbox-primary-dark, 0 0% 98%))",
             "foreground": {
               "DEFAULT": "hsl(var(--checkbox-checkbox-primary-foreground, 0 0% 98%))",
-              "dark": "240 5.9% 10%",
+              "dark": "hsl(var(--checkbox-checkbox-primary-foreground-dark, 240 5.9% 10%))",
             },
             "ring": {
               "DEFAULT": "hsl(var(--checkbox-checkbox-primary-ring, 240 5.9% 10%))",
-              "dark": "240 4.9% 83.9%",
+              "dark": "hsl(var(--checkbox-checkbox-primary-ring-dark, 240 4.9% 83.9%))",
             },
           },
         },
         "input-input": {
           "DEFAULT": "hsl(var(--input-input, 240 5.9% 90%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "hsl(var(--input-input-dark, 240 3.7% 15.9%))",
           "ring": {
             "DEFAULT": "hsl(var(--input-input-ring, 240 5.9% 90%))",
-            "dark": "240 3.7% 15.9%",
+            "dark": "hsl(var(--input-input-ring-dark, 240 3.7% 15.9%))",
           },
         },
       }
@@ -382,143 +382,218 @@ describe('should', () => {
       {
         "badge-accent": {
           "DEFAULT": "rgb(var(--badge-accent, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--badge-accent-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "rgb(var(--badge-accent-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--badge-accent-foreground-dark, 0 0% 98%))",
           },
         },
         "badge-destructive": {
           "DEFAULT": "rgb(var(--badge-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "rgb(var(--badge-destructive-dark, 0 62.8% 30.6%))",
           "foreground": {
             "DEFAULT": "rgb(var(--badge-destructive-foreground, 0 0% 98%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--badge-destructive-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
-            "dark": "0 62.8% 20.6%",
+            "dark": "rgb(var(--badge-destructive-hover-dark, 0 62.8% 20.6%))",
           },
         },
         "badge-foreground": {
           "DEFAULT": "rgb(var(--badge-foreground, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "rgb(var(--badge-foreground-dark, 0 0% 98%))",
         },
         "badge-primary": {
           "DEFAULT": "rgb(var(--badge-primary, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "rgb(var(--badge-primary-dark, 0 0% 98%))",
           "foreground": {
             "DEFAULT": "rgb(var(--badge-primary-foreground, 0 0% 98%))",
-            "dark": "240 5.9% 10%",
+            "dark": "rgb(var(--badge-primary-foreground-dark, 240 5.9% 10%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--badge-primary-hover-dark, 0 0% 98%))",
           },
         },
         "badge-ring-destructive": {
           "DEFAULT": "rgb(var(--badge-ring-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "rgb(var(--badge-ring-destructive-dark, 0 62.8% 30.6%))",
         },
         "badge-secondary": {
           "DEFAULT": "rgb(var(--badge-secondary, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--badge-secondary-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "rgb(var(--badge-secondary-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--badge-secondary-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
-            "dark": "240 3.7% 15.9%",
+            "dark": "rgb(var(--badge-secondary-hover-dark, 240 3.7% 15.9%))",
           },
         },
         "btn-accent": {
           "DEFAULT": "rgb(var(--btn-accent, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--btn-accent-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "rgb(var(--btn-accent-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--btn-accent-foreground-dark, 0 0% 98%))",
           },
         },
         "btn-background": {
           "DEFAULT": "rgb(var(--btn-background, 0 0% 100%))",
-          "dark": "240 10% 3.9%",
+          "dark": "rgb(var(--btn-background-dark, 240 10% 3.9%))",
         },
         "btn-destructive": {
           "DEFAULT": "rgb(var(--btn-destructive, 0 84.2% 60.2%))",
-          "dark": "0 62.8% 30.6%",
+          "dark": "rgb(var(--btn-destructive-dark, 0 62.8% 30.6%))",
           "foreground": {
             "DEFAULT": "rgb(var(--btn-destructive-foreground, 0 0% 98%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--btn-destructive-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
-            "dark": "0 62.8% 20.6%",
+            "dark": "rgb(var(--btn-destructive-hover-dark, 0 62.8% 20.6%))",
           },
         },
         "btn-input": {
           "DEFAULT": "rgb(var(--btn-input, 240 5.9% 90%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--btn-input-dark, 240 3.7% 15.9%))",
         },
         "btn-primary": {
           "DEFAULT": "rgb(var(--btn-primary, 240 5.9% 10%))",
-          "dark": "0 0% 98%",
+          "dark": "rgb(var(--btn-primary-dark, 0 0% 98%))",
           "foreground": {
             "DEFAULT": "rgb(var(--btn-primary-foreground, 0 0% 98%))",
-            "dark": "240 5.9% 10%",
+            "dark": "rgb(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--btn-primary-hover-dark, 0 0% 98%))",
           },
         },
         "btn-ring": {
           "DEFAULT": "rgb(var(--btn-ring, 240 5.9% 10%))",
-          "dark": "240 4.9% 83.9%",
+          "dark": "rgb(var(--btn-ring-dark, 240 4.9% 83.9%))",
         },
         "btn-secondary": {
           "DEFAULT": "rgb(var(--btn-secondary, 240 4.8% 95.9%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--btn-secondary-dark, 240 3.7% 15.9%))",
           "foreground": {
             "DEFAULT": "rgb(var(--btn-secondary-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--btn-secondary-foreground-dark, 0 0% 98%))",
           },
           "hover": {
             "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
-            "dark": "240 3.7% 15.9%",
+            "dark": "rgb(var(--btn-secondary-hover-dark, 240 3.7% 15.9%))",
           },
         },
         "card-card": {
           "DEFAULT": "rgb(var(--card-card, 0 0% 100%))",
-          "dark": "240 10% 3.9%",
+          "dark": "rgb(var(--card-card-dark, 240 10% 3.9%))",
           "foreground": {
             "DEFAULT": "rgb(var(--card-card-foreground, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--card-card-foreground-dark, 0 0% 98%))",
           },
         },
         "checkbox-checkbox": {
           "primary": {
             "DEFAULT": "rgb(var(--checkbox-checkbox-primary, 240 5.9% 10%))",
-            "dark": "0 0% 98%",
+            "dark": "rgb(var(--checkbox-checkbox-primary-dark, 0 0% 98%))",
             "foreground": {
               "DEFAULT": "rgb(var(--checkbox-checkbox-primary-foreground, 0 0% 98%))",
-              "dark": "240 5.9% 10%",
+              "dark": "rgb(var(--checkbox-checkbox-primary-foreground-dark, 240 5.9% 10%))",
             },
             "ring": {
               "DEFAULT": "rgb(var(--checkbox-checkbox-primary-ring, 240 5.9% 10%))",
-              "dark": "240 4.9% 83.9%",
+              "dark": "rgb(var(--checkbox-checkbox-primary-ring-dark, 240 4.9% 83.9%))",
             },
           },
         },
         "input-input": {
           "DEFAULT": "rgb(var(--input-input, 240 5.9% 90%))",
-          "dark": "240 3.7% 15.9%",
+          "dark": "rgb(var(--input-input-dark, 240 3.7% 15.9%))",
           "ring": {
             "DEFAULT": "rgb(var(--input-input-ring, 240 5.9% 90%))",
-            "dark": "240 3.7% 15.9%",
+            "dark": "rgb(var(--input-input-ring-dark, 240 3.7% 15.9%))",
           },
         },
       }
     `)
+  })
+
+  it('advanced color format handling', () => {
+    // 测试所有高级颜色格式：rgb, hsl, undefined, 自定义函数
+    const advancedTheme = {
+      test: {
+        // 1. 强制使用 RGB 格式
+        rgbColor: {
+          DEFAULT: ['255 0 0', 'rgb'] as [string, 'rgb'],
+        },
+
+        // 2. 强制使用 HSL 格式
+        hslColor: {
+          DEFAULT: ['240 50% 60%', 'hsl'] as [string, 'hsl'],
+        },
+
+        // 3. 使用 undefined 表示不包裹任何函数
+        rawColor: {
+          DEFAULT: ['240 50% 60%', undefined] as [string, undefined],
+        },
+
+        // 3.1. 单元素数组，默认为 undefined
+        singleArrayColor: {
+          DEFAULT: ['180 30% 70%'] as [string],
+        },
+
+        // 4. 使用自定义函数处理
+        customColor: {
+          DEFAULT: ['240 50 60', (prefixKey: string, value: string) => {
+            return `oklch(var(${prefixKey}, ${value}))`
+          }] as [string, (prefixKey: string, value: string) => string],
+        },
+
+        // 5. 混合使用不同格式
+        mixedColors: {
+          DEFAULT: '0 0% 100%', // 使用全局默认 hsl
+          accent: ['255 128 64', 'rgb'] as [string, 'rgb'], // RGB
+          raw: ['120 80% 50%'] as [string], // 原始值
+          hover: ['120 80% 50%', (prefixKey: string, value: string) => {
+            return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
+          }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+        },
+
+        // 6. css 变量格式
+        cssColor: {
+          DEFAULT: 'var(--test-cssColor, 240 50% 60%)',
+          dark: 'var(--test-cssColor-dark, 240 3.7% 15.9%)',
+        },
+      },
+    }
+
+    const result = generateColors(advancedTheme, { colorRule: 'hsl' })
+
+    // 验证 RGB 强制格式
+    expect(result['test-rgbColor'].DEFAULT).toBe('rgb(var(--test-rgbColor, 255 0 0))')
+
+    // 验证 HSL 强制格式
+    expect(result['test-hslColor'].DEFAULT).toBe('hsl(var(--test-hslColor, 240 50% 60%))')
+
+    // 验证 undefined（原始值不包裹）
+    expect(result['test-rawColor'].DEFAULT).toBe('var(--test-rawColor, 240 50% 60%)')
+
+    // 验证单元素数组（默认为 undefined）
+    expect(result['test-singleArrayColor'].DEFAULT).toBe('var(--test-singleArrayColor, 180 30% 70%)')
+
+    // 验证自定义函数
+    expect(result['test-customColor'].DEFAULT).toBe('oklch(var(--test-customColor, 240 50 60))')
+
+    // 验证混合使用场景
+    expect(result['test-mixedColors'].DEFAULT).toBe('hsl(var(--test-mixedColors, 0 0% 100%))')
+    expect(result['test-mixedColors'].accent).toBe('rgb(var(--test-mixedColors-accent, 255 128 64))')
+    expect(result['test-mixedColors'].raw).toBe('var(--test-mixedColors-raw, 120 80% 50%)')
+    expect(result['test-mixedColors'].hover).toBe('color-mix(in srgb, var(--test-mixedColors-hover, 120 80% 50%), transparent 20%)')
+    expect(result['test-cssColor'].DEFAULT).toBe('var(--test-cssColor, var(--test-cssColor, 240 50% 60%))')
+    expect(result['test-cssColor'].dark).toBe('var(--test-cssColor-dark, var(--test-cssColor-dark, 240 3.7% 15.9%))')
   })
 })

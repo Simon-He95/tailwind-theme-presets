@@ -275,6 +275,70 @@ const themeConfig = {
 
 </details>
 
+### 🎛️ 高级颜色控制
+
+<details>
+<summary><strong>🔥 精细化颜色格式控制 (v0.0.2+)</strong></summary>
+
+现在支持对每个颜色值进行精细化控制，支持多种格式和自定义处理函数：
+
+#### 基本用法
+
+```javascript
+const themeConfig = {
+  colors: {
+    brand: {
+      // 🎯 强制使用 RGB 格式
+      primary: { DEFAULT: ['255 0 0', 'rgb'] },
+
+      // 🎨 强制使用 HSL 格式
+      secondary: { DEFAULT: ['240 50% 60%', 'hsl'] },
+
+      // 🔄 不包裹任何函数，直接使用原始值
+      accent: { DEFAULT: ['240 50% 60%', undefined] },
+
+      // ⚡ 自定义处理函数
+      special: {
+        DEFAULT: ['240 50 60', (prefixKey, value) => {
+          return `oklch(var(${prefixKey}, ${value}))`
+        }]
+      }
+    }
+  }
+}
+```
+
+#### 生成结果对比
+
+| 配置 | 生成的 CSS 值 |
+|------|---------------|
+| `['255 0 0', 'rgb']` | `rgb(var(--colors-brand-primary, 255 0 0))` |
+| `['240 50% 60%', 'hsl']` | `hsl(var(--colors-brand-secondary, 240 50% 60%))` |
+| `['240 50% 60%', undefined]` | `var(--colors-brand-accent, 240 50% 60%)` |
+| `['240 50 60', customFn]` | `oklch(var(--colors-brand-special, 240 50 60))` |
+
+#### 实际应用场景
+
+```javascript
+const advancedTheme = {
+  btn: {
+    primary: {
+      // 🎯 混合使用不同格式
+      DEFAULT: '240 5.9% 10%', // 使用全局默认格式
+      rgb: ['255 128 64', 'rgb'], // 强制 RGB
+      raw: ['240 50% 60%', undefined], // 原始值，不包裹
+      gradient: ['120 80% 50%', (prefix, value) => {
+        return `linear-gradient(45deg, var(${prefix}, ${value}), transparent)`
+      }]
+    }
+  }
+}
+```
+
+**🚀 完全兼容现有配置，渐进式升级！**
+
+</details>
+
 ## 🤝 与 Shadcn/ui 完美融合
 
 <div align="center">
@@ -375,13 +439,20 @@ module.exports = {
 
 ## 📚 API 参考
 
-### 🔧 `presetTheme(theme: DeepPartial<Theme>)`
+### 🔧 `presetTheme(theme: DeepPartial<Theme>, options?: Options)`
 
 创建一个智能的 Tailwind CSS preset。
 
-| 参数    | 类型                 | 说明            |
-| ------- | -------------------- | --------------- |
-| `theme` | `DeepPartial<Theme>` | 🎨 主题配置对象 |
+| 参数      | 类型                 | 说明                |
+| --------- | -------------------- | ------------------- |
+| `theme`   | `DeepPartial<Theme>` | 🎨 主题配置对象     |
+| `options` | `Options?`           | ⚙️ 可选配置参数     |
+
+**Options 参数：**
+
+| 属性        | 类型               | 默认值  | 说明                      |
+| ----------- | ------------------ | ------- | ------------------------- |
+| `colorRule` | `'rgb' \| 'hsl'`   | `'hsl'` | 🎨 默认颜色包裹函数类型   |
 
 **返回值：**完整的 Tailwind preset 对象
 
@@ -389,9 +460,19 @@ module.exports = {
 - 🎨 `theme.extend.colors` - 扩展的颜色配置
 - 🔌 `plugins` - CSS 变量生成插件
 
-### 🎨 `generateColors(theme: Theme)`
+### 🎨 `generateColors(theme: Theme, options?: Options)`
 
 从主题配置生成 Tailwind 颜色配置。
+
+**颜色值格式支持：**
+
+| 格式 | 类型 | 示例 | 生成结果 |
+|------|------|------|----------|
+| 简单字符串 | `string` | `'240 5.9% 10%'` | `hsl(var(--prefix, 240 5.9% 10%))` |
+| RGB 强制 | `[string, 'rgb']` | `['255 0 0', 'rgb']` | `rgb(var(--prefix, 255 0 0))` |
+| HSL 强制 | `[string, 'hsl']` | `['240 50% 60%', 'hsl']` | `hsl(var(--prefix, 240 50% 60%))` |
+| 原始值 | `[string, undefined]` | `['240 50% 60%', undefined]` | `var(--prefix, 240 50% 60%)` |
+| 自定义函数 | `[string, Function]` | `['240 50 60', customFn]` | `customFn('--prefix', '240 50 60')` |
 
 ### 🔄 `processTheme(theme: Theme)`
 
