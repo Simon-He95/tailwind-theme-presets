@@ -1,7 +1,7 @@
 {
   "name": "tailwind-theme-preset",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "packageManager": "pnpm@9.15.9",
   "description": "A Tailwind CSS plugin for unified theme management with automatic CSS variable generation, supporting multi-theme configurations and Shadcn/ui compatibility.",
   "author": "Simon He",
