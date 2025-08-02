@@ -19,13 +19,16 @@ export type DeepPartial<T> = {
       ? DeepPartial<T[P]>
       : T[P]
 }
-export function presetTheme(theme: DeepPartial<Theme>) {
+interface Options {
+  colorRule?: 'rgb' | 'hsl'
+}
+export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
   const mergedTheme = deepMerge({}, theme) as Theme
   return {
     safelist: ['dark'],
     theme: {
       extend: {
-        colors: generateColors(mergedTheme),
+        colors: generateColors(mergedTheme, options),
       },
       // 这里可以添加更多的主题配置
     },
@@ -33,7 +36,7 @@ export function presetTheme(theme: DeepPartial<Theme>) {
   }
 }
 
-export function generateColors(theme: Theme) {
+export function generateColors(theme: Theme, options: Options = { colorRule: 'hsl' }) {
   const colors: Theme = {}
   for (const key in theme) {
     const value = theme[key]
@@ -52,16 +55,27 @@ export function generateColors(theme: Theme) {
   // eslint-disable-next-line no-console
   console.log('[THEME] Extend colors:', colors)
   return colors
-}
 
-function processedColor(colorValue: any, prefixKey: string) {
-  for (const key in colorValue) {
-    const value = colorValue[key]
-    if (key === 'DEFAULT' && typeof value === 'string') {
-      colorValue.DEFAULT = `hsl(var(${prefixKey}, ${value}))`
-    }
-    else if (typeof value === 'object' && value !== null) {
-      processedColor(value, `${prefixKey}-${key}`)
+  function processedColor(colorValue: any, prefixKey: string) {
+    for (const key in colorValue) {
+      const value = colorValue[key]
+      if (key === 'DEFAULT' && typeof value === 'string') {
+        // 检查是否为已经是完整的颜色格式，不需要包装
+        const isCompleteColor
+          = /^(?:rgb|rgba|hsl|hsla)\s*\(/.test(value) // rgb(), rgba(), hsl(), hsla()
+            || /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(value) // 十六进制
+            || /^var\s*\(/.test(value) // CSS 变量
+
+        if (isCompleteColor) {
+          colorValue.DEFAULT = `var(${prefixKey}, ${value})`
+        }
+        else {
+          colorValue.DEFAULT = `${options.colorRule}(var(${prefixKey}, ${value}))`
+        }
+      }
+      else if (typeof value === 'object' && value !== null) {
+        processedColor(value, `${prefixKey}-${key}`)
+      }
     }
   }
 }
@@ -141,13 +155,13 @@ function deepMerge<T extends Record<string, any>>(...args: T[]): T {
         && typeof source[key] === 'object'
         && !Array.isArray(source[key])
       ) {
-        ;(target as any)[key] = deepMerge(
+        ; (target as any)[key] = deepMerge(
           (target as any)[key] || {},
           (source as any)[key],
         )
       }
       else {
-        ;(target as any)[key] = (source as any)[key]
+        ; (target as any)[key] = (source as any)[key]
       }
     }
   }

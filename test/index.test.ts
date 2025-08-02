@@ -171,7 +171,7 @@ describe('should', () => {
             "dark": "0 0% 98%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--badge-destructive-hover, var(--badge-destructive) / 90%))",
+            "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
             "dark": "0 62.8% 20.6%",
           },
         },
@@ -187,7 +187,7 @@ describe('should', () => {
             "dark": "240 5.9% 10%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--badge-primary-hover, var(--badge-primary) / 90%))",
+            "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
             "dark": "0 0% 98%",
           },
         },
@@ -203,7 +203,7 @@ describe('should', () => {
             "dark": "0 0% 98%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--badge-secondary-hover, var(--badge-secondary) / 90%))",
+            "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
             "dark": "240 3.7% 15.9%",
           },
         },
@@ -227,7 +227,7 @@ describe('should', () => {
             "dark": "0 0% 98%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--btn-destructive-hover, var(--btn-destructive) / 90%))",
+            "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
             "dark": "0 62.8% 20.6%",
           },
         },
@@ -243,7 +243,7 @@ describe('should', () => {
             "dark": "240 5.9% 10%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--btn-primary-hover, var(--btn-primary) / 90%))",
+            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
             "dark": "0 0% 98%",
           },
         },
@@ -259,7 +259,7 @@ describe('should', () => {
             "dark": "0 0% 98%",
           },
           "hover": {
-            "DEFAULT": "hsl(var(--btn-secondary-hover, var(--btn-secondary) / 80%))",
+            "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
             "dark": "240 3.7% 15.9%",
           },
         },
@@ -370,6 +370,153 @@ describe('should', () => {
           "--checkbox-checkbox-primary-ring": "240 5.9% 10%",
           "--input-input": "240 5.9% 90%",
           "--input-input-ring": "240 5.9% 90%",
+        },
+      }
+    `)
+  })
+
+  it('generateColors with rgb', () => {
+    expect(generateColors(baseTheme, {
+      colorRule: 'rgb',
+    })).toMatchInlineSnapshot(`
+      {
+        "badge-accent": {
+          "DEFAULT": "rgb(var(--badge-accent, 240 4.8% 95.9%))",
+          "dark": "240 3.7% 15.9%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--badge-accent-foreground, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+          },
+        },
+        "badge-destructive": {
+          "DEFAULT": "rgb(var(--badge-destructive, 0 84.2% 60.2%))",
+          "dark": "0 62.8% 30.6%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--badge-destructive-foreground, 0 0% 98%))",
+            "dark": "0 0% 98%",
+          },
+          "hover": {
+            "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
+            "dark": "0 62.8% 20.6%",
+          },
+        },
+        "badge-foreground": {
+          "DEFAULT": "rgb(var(--badge-foreground, 240 5.9% 10%))",
+          "dark": "0 0% 98%",
+        },
+        "badge-primary": {
+          "DEFAULT": "rgb(var(--badge-primary, 240 5.9% 10%))",
+          "dark": "0 0% 98%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--badge-primary-foreground, 0 0% 98%))",
+            "dark": "240 5.9% 10%",
+          },
+          "hover": {
+            "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
+            "dark": "0 0% 98%",
+          },
+        },
+        "badge-ring-destructive": {
+          "DEFAULT": "rgb(var(--badge-ring-destructive, 0 84.2% 60.2%))",
+          "dark": "0 62.8% 30.6%",
+        },
+        "badge-secondary": {
+          "DEFAULT": "rgb(var(--badge-secondary, 240 4.8% 95.9%))",
+          "dark": "240 3.7% 15.9%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--badge-secondary-foreground, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+          },
+          "hover": {
+            "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
+            "dark": "240 3.7% 15.9%",
+          },
+        },
+        "btn-accent": {
+          "DEFAULT": "rgb(var(--btn-accent, 240 4.8% 95.9%))",
+          "dark": "240 3.7% 15.9%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--btn-accent-foreground, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+          },
+        },
+        "btn-background": {
+          "DEFAULT": "rgb(var(--btn-background, 0 0% 100%))",
+          "dark": "240 10% 3.9%",
+        },
+        "btn-destructive": {
+          "DEFAULT": "rgb(var(--btn-destructive, 0 84.2% 60.2%))",
+          "dark": "0 62.8% 30.6%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--btn-destructive-foreground, 0 0% 98%))",
+            "dark": "0 0% 98%",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
+            "dark": "0 62.8% 20.6%",
+          },
+        },
+        "btn-input": {
+          "DEFAULT": "rgb(var(--btn-input, 240 5.9% 90%))",
+          "dark": "240 3.7% 15.9%",
+        },
+        "btn-primary": {
+          "DEFAULT": "rgb(var(--btn-primary, 240 5.9% 10%))",
+          "dark": "0 0% 98%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--btn-primary-foreground, 0 0% 98%))",
+            "dark": "240 5.9% 10%",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
+            "dark": "0 0% 98%",
+          },
+        },
+        "btn-ring": {
+          "DEFAULT": "rgb(var(--btn-ring, 240 5.9% 10%))",
+          "dark": "240 4.9% 83.9%",
+        },
+        "btn-secondary": {
+          "DEFAULT": "rgb(var(--btn-secondary, 240 4.8% 95.9%))",
+          "dark": "240 3.7% 15.9%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--btn-secondary-foreground, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
+            "dark": "240 3.7% 15.9%",
+          },
+        },
+        "card-card": {
+          "DEFAULT": "rgb(var(--card-card, 0 0% 100%))",
+          "dark": "240 10% 3.9%",
+          "foreground": {
+            "DEFAULT": "rgb(var(--card-card-foreground, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+          },
+        },
+        "checkbox-checkbox": {
+          "primary": {
+            "DEFAULT": "rgb(var(--checkbox-checkbox-primary, 240 5.9% 10%))",
+            "dark": "0 0% 98%",
+            "foreground": {
+              "DEFAULT": "rgb(var(--checkbox-checkbox-primary-foreground, 0 0% 98%))",
+              "dark": "240 5.9% 10%",
+            },
+            "ring": {
+              "DEFAULT": "rgb(var(--checkbox-checkbox-primary-ring, 240 5.9% 10%))",
+              "dark": "240 4.9% 83.9%",
+            },
+          },
+        },
+        "input-input": {
+          "DEFAULT": "rgb(var(--input-input, 240 5.9% 90%))",
+          "dark": "240 3.7% 15.9%",
+          "ring": {
+            "DEFAULT": "rgb(var(--input-input-ring, 240 5.9% 90%))",
+            "dark": "240 3.7% 15.9%",
+          },
         },
       }
     `)
