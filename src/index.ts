@@ -23,11 +23,12 @@ export type DeepPartial<T> = {
 }
 interface Options {
   colorRule?: 'rgb' | 'hsl'
+  safelist?: string[]
 }
 export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
   const mergedTheme = deepMerge({}, theme) as Theme
   return {
-    safelist: ['dark'],
+    safelist: ['dark', ...(options.safelist || [])],
     theme: {
       extend: {
         colors: generateColors(mergedTheme, options),
