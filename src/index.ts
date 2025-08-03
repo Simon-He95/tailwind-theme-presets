@@ -49,8 +49,36 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
         const colorValue = value[cssVarKey]
         if (typeof colorValue === 'object' && !Array.isArray(colorValue)) {
           const processedValue = deepMerge({}, colorValue)
-          colors[colorKey] = processedValue
-          processedColor(processedValue, `--${colorKey}`)
+          colors[colorKey] = processedColor(processedValue, `--${colorKey}`)
+        }
+        else {
+          if (cssVarKey === 'DEFAULT') {
+            // :root 添加
+            colors[key] = {
+              DEFAULT: `var(--${key}, ${colorValue})`,
+            }
+          }
+          else {
+            // // .themeKey 添加
+            colors[key] = colors[key] || {}
+            colors[key][cssVarKey] = colors[key][cssVarKey] || {}
+            if (typeof colorValue === 'string') {
+              colors[key][cssVarKey] = {
+                DEFAULT: colorValue,
+              }
+            }
+            else if (Array.isArray(colorValue)) {
+              if (colorValue[1] === undefined) {
+                colors[key][cssVarKey] = `var(--${colorKey}, ${colorValue[0]})`
+              }
+              else if (typeof colorValue[1] === 'string') {
+                colors[key][cssVarKey] = `${colorValue[1]}(var(--${colorKey}, ${colorValue[0]}))`
+              }
+              else if (typeof colorValue[1] === 'function') {
+                colors[key][cssVarKey] = colorValue[1](`--${colorKey}`, colorValue[0])
+              }
+            }
+          }
         }
       }
     }
@@ -117,6 +145,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
         processedColor(value, `${prefixKey}-${key}`)
       }
     }
+    return colorValue
   }
 }
 
@@ -134,10 +163,27 @@ export function processTheme(theme: Theme) {
         if (typeof cssVarValue === 'object' && !Array.isArray(cssVarValue)) {
           processedTheme(cssVarValue, processCssVarKey, processed)
         }
+        else {
+          if (cssVarKey === 'DEFAULT') {
+            // :root 添加
+            if (typeof cssVarValue === 'string') {
+              processed[':root'][`--${key}`] = cssVarValue
+            }
+            else if (Array.isArray(cssVarValue)) {
+              processed[':root'][`--${key}`] = cssVarValue[0]
+            }
+          }
+          else {
+            // .themeKey 添加
+            if (typeof cssVarValue === 'string') {
+              processed[':root'][processCssVarKey] = cssVarValue
+            }
+            else if (Array.isArray(cssVarValue)) {
+              processed[':root'][processCssVarKey] = cssVarValue[0]
+            }
+          }
+        }
       }
-    }
-    else {
-      processed[':root'][`--${key}`] = value
     }
   }
   return processed
@@ -153,12 +199,17 @@ function processedTheme(
     if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       processedTheme(value, `${prefixKey}-${key}`, processed)
     }
-    else if (typeof value === 'string') {
+    else {
       if (key === 'DEFAULT') {
         // :root 添加
-        processed[':root'][prefixKey] = value
+        if (typeof value === 'string') {
+          processed[':root'][prefixKey] = value
+        }
+        else if (Array.isArray(value)) {
+          processed[':root'][prefixKey] = value[0]
+        }
       }
-      else {
+      else if (typeof value === 'string') {
         // .themeKey 添加
         processed[`.${key}`] = processed[`.${key}`] || {}
         processed[`.${key}`][prefixKey] = value

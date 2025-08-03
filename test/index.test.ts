@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { generateColors, processTheme } from '../src'
 
-describe('should', () => {
+describe('tailwind-theme-presets', () => {
   const baseTheme = {
     btn: {
       primary: {
@@ -556,11 +556,17 @@ describe('should', () => {
         // 5. 混合使用不同格式
         mixedColors: {
           DEFAULT: '0 0% 100%', // 使用全局默认 hsl
-          accent: ['255 128 64', 'rgb'] as [string, 'rgb'], // RGB
-          raw: ['120 80% 50%'] as [string], // 原始值
-          hover: ['120 80% 50%', (prefixKey: string, value: string) => {
-            return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
-          }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+          accent: {
+            DEFAULT: ['255 128 64', 'rgb'] as [string, 'rgb'], // RGB
+          },
+          raw: {
+            DEFAULT: ['120 80% 50%'] as [string], // 原始值
+          },
+          hover: {
+            DEFAULT: ['120 80% 50%', (prefixKey: string, value: string) => {
+              return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
+            }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+          },
         },
 
         // 6. css 变量格式
@@ -587,13 +593,122 @@ describe('should', () => {
 
     // 验证自定义函数
     expect(result['test-customColor'].DEFAULT).toBe('oklch(var(--test-customColor, 240 50 60))')
-
     // 验证混合使用场景
     expect(result['test-mixedColors'].DEFAULT).toBe('hsl(var(--test-mixedColors, 0 0% 100%))')
-    expect(result['test-mixedColors'].accent).toBe('rgb(var(--test-mixedColors-accent, 255 128 64))')
-    expect(result['test-mixedColors'].raw).toBe('var(--test-mixedColors-raw, 120 80% 50%)')
-    expect(result['test-mixedColors'].hover).toBe('color-mix(in srgb, var(--test-mixedColors-hover, 120 80% 50%), transparent 20%)')
+    expect((result['test-mixedColors'].accent as any).DEFAULT).toBe('rgb(var(--test-mixedColors-accent, 255 128 64))')
+    expect((result['test-mixedColors'].raw as any).DEFAULT).toBe('var(--test-mixedColors-raw, 120 80% 50%)')
+    expect((result['test-mixedColors'].hover as any).DEFAULT).toBe('color-mix(in srgb, var(--test-mixedColors-hover, 120 80% 50%), transparent 20%)')
     expect(result['test-cssColor'].DEFAULT).toBe('var(--test-cssColor, var(--test-cssColor, 240 50% 60%))')
     expect(result['test-cssColor'].dark).toBe('var(--test-cssColor-dark, var(--test-cssColor-dark, 240 3.7% 15.9%))')
+    expect(processTheme(advancedTheme)).toMatchInlineSnapshot(`
+      {
+        ".dark": {
+          "--test-cssColor": "var(--test-cssColor-dark, 240 3.7% 15.9%)",
+        },
+        ":root": {
+          "--test-cssColor": "var(--test-cssColor, 240 50% 60%)",
+          "--test-customColor": "240 50 60",
+          "--test-hslColor": "240 50% 60%",
+          "--test-mixedColors": "0 0% 100%",
+          "--test-mixedColors-accent": "255 128 64",
+          "--test-mixedColors-hover": "120 80% 50%",
+          "--test-mixedColors-raw": "120 80% 50%",
+          "--test-rawColor": "240 50% 60%",
+          "--test-rgbColor": "255 0 0",
+          "--test-singleArrayColor": "180 30% 70%",
+        },
+      }
+    `)
+  })
+
+  it('processTheme with advanced color formats', () => {
+    const theme = {
+      primary: {
+        DEFAULT: '240 5.9% 10%',
+        dark: '0 0% 98%',
+        foreground: {
+          DEFAULT: '0 0% 98%',
+          dark: '240 5.9% 10%',
+        },
+      },
+      btn: {
+        primary: {
+          DEFAULT: 'var(--primary)',
+          dark: 'var(--primary)',
+          hover: {
+            DEFAULT: 'var(--btn-primary) / 90%', // bg-btn-primary/90
+            dark: '0 0% 98%',
+          },
+          foreground: {
+            DEFAULT: '0 0% 98%',
+            dark: '240 5.9% 10%',
+          },
+        },
+      },
+      mixedColors: {
+        DEFAULT: '0 0% 100%', // 使用全局默认 hsl
+        accent: ['255 128 64', 'rgb'] as [string, 'rgb'], // RGB
+        raw: ['120 80% 50%'] as [string], // 原始值
+        hover: ['120 80% 50%', (prefixKey: string, value: string) => {
+          return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
+        }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+      },
+    }
+
+    expect(processTheme(theme)).toMatchInlineSnapshot(`
+      {
+        ".dark": {
+          "--btn-primary": "var(--primary)",
+          "--btn-primary-foreground": "240 5.9% 10%",
+          "--btn-primary-hover": "0 0% 98%",
+          "--primary-foreground": "240 5.9% 10%",
+        },
+        ":root": {
+          "--btn-primary": "var(--primary)",
+          "--btn-primary-foreground": "0 0% 98%",
+          "--btn-primary-hover": "var(--btn-primary) / 90%",
+          "--mixedColors": "0 0% 100%",
+          "--mixedColors-accent": "255 128 64",
+          "--mixedColors-hover": "120 80% 50%",
+          "--mixedColors-raw": "120 80% 50%",
+          "--primary": "240 5.9% 10%",
+          "--primary-dark": "0 0% 98%",
+          "--primary-foreground": "0 0% 98%",
+        },
+      }
+    `)
+
+    expect(generateColors(theme)).toMatchInlineSnapshot(`
+      {
+        "btn-primary": {
+          "DEFAULT": "var(--btn-primary, var(--primary))",
+          "dark": "var(--btn-primary-dark, var(--primary))",
+          "foreground": {
+            "DEFAULT": "hsl(var(--btn-primary-foreground, 0 0% 98%))",
+            "dark": "hsl(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
+            "dark": "hsl(var(--btn-primary-hover-dark, 0 0% 98%))",
+          },
+        },
+        "mixedColors": {
+          "DEFAULT": "var(--mixedColors, 0 0% 100%)",
+          "accent": "rgb(var(--mixedColors-accent, 255 128 64))",
+          "hover": "color-mix(in srgb, var(--mixedColors-hover, 120 80% 50%), transparent 20%)",
+          "raw": "var(--mixedColors-raw, 120 80% 50%)",
+        },
+        "primary": {
+          "DEFAULT": "var(--primary, 240 5.9% 10%)",
+          "dark": {
+            "DEFAULT": "0 0% 98%",
+          },
+        },
+        "primary-foreground": {
+          "DEFAULT": "hsl(var(--primary-foreground, 0 0% 98%))",
+          "dark": "hsl(var(--primary-foreground-dark, 240 5.9% 10%))",
+        },
+      }
+    `)
   })
 })
