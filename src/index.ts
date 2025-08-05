@@ -259,3 +259,23 @@ function deepMerge<T extends Record<string, any>>(...args: T[]): T {
   }
   return target
 }
+
+export function flattenedTheme(theme: Theme): Record<string, string> {
+  const result: Record<string, string> = {}
+
+  function recurse(curr: any, prefix: string) {
+    for (const key in curr) {
+      const value = curr[key]
+      const newKey = prefix ? key === 'DEFAULT' ? prefix : `${prefix}-${key}` : key
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        recurse(value, newKey)
+      }
+      else {
+        result[newKey] = value
+      }
+    }
+  }
+
+  recurse(theme, '')
+  return result
+}
