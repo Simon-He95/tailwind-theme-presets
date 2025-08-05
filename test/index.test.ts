@@ -624,25 +624,34 @@ describe('tailwind-theme-presets', () => {
   it('processTheme with advanced color formats', () => {
     const theme = {
       primary: {
-        DEFAULT: '240 5.9% 10%',
-        dark: '0 0% 98%',
+        DEFAULT: '240 5.9% 10%', // --primary: '240 5.9% 10%'
+        dark: '0 0% 98%', // --primary-dark: '0 0% 98%'
+        light: 'var(--primary-foreground)', // --primary-light: '240 5.9% 90%'
         foreground: {
           DEFAULT: '0 0% 98%',
           dark: '240 5.9% 10%',
         },
       },
+      background: {
+        DEFAULT: '0 0% 100%',
+        dark: '240 10% 3.9%',
+      },
       btn: {
         primary: {
-          DEFAULT: 'var(--primary)',
-          dark: 'var(--primary)',
+          DEFAULT: 'hsl(var(--primary))',
+          dark: 'hsl(var(--primary))',
           hover: {
-            DEFAULT: 'var(--btn-primary) / 90%', // bg-btn-primary/90
-            dark: '0 0% 98%',
+            DEFAULT: 'hsl(var(--btn-primary) / 90%)', // bg-btn-primary/90
+            dark: 'hsl(var(--btn-primary) / 90%)',
           },
           foreground: {
-            DEFAULT: '0 0% 98%',
-            dark: '240 5.9% 10%',
+            DEFAULT: 'hsl(var(--primary-foreground))',
+            dark: 'hsl(var(--primary-foreground))',
           },
+        },
+        background: {
+          DEFAULT: 'hsl(var(--background))',
+          dark: 'hsl(var(--background))',
         },
       },
       mixedColors: {
@@ -658,21 +667,28 @@ describe('tailwind-theme-presets', () => {
     expect(processTheme(theme)).toMatchInlineSnapshot(`
       {
         ".dark": {
-          "--btn-primary": "var(--primary)",
-          "--btn-primary-foreground": "240 5.9% 10%",
-          "--btn-primary-hover": "0 0% 98%",
+          "--background": "240 10% 3.9%",
+          "--btn-background": "hsl(var(--background))",
+          "--btn-primary": "hsl(var(--primary))",
+          "--btn-primary-foreground": "hsl(var(--primary-foreground))",
+          "--btn-primary-hover": "hsl(var(--btn-primary) / 90%)",
+          "--primary": "0 0% 98%",
           "--primary-foreground": "240 5.9% 10%",
         },
+        ".light": {
+          "--primary": "var(--primary-foreground)",
+        },
         ":root": {
-          "--btn-primary": "var(--primary)",
-          "--btn-primary-foreground": "0 0% 98%",
-          "--btn-primary-hover": "var(--btn-primary) / 90%",
+          "--background": "0 0% 100%",
+          "--btn-background": "hsl(var(--background))",
+          "--btn-primary": "hsl(var(--primary))",
+          "--btn-primary-foreground": "hsl(var(--primary-foreground))",
+          "--btn-primary-hover": "hsl(var(--btn-primary) / 90%)",
           "--mixedColors": "0 0% 100%",
           "--mixedColors-accent": "255 128 64",
           "--mixedColors-hover": "120 80% 50%",
           "--mixedColors-raw": "120 80% 50%",
           "--primary": "240 5.9% 10%",
-          "--primary-dark": "0 0% 98%",
           "--primary-foreground": "0 0% 98%",
         },
       }
@@ -680,16 +696,26 @@ describe('tailwind-theme-presets', () => {
 
     expect(generateColors(theme)).toMatchInlineSnapshot(`
       {
+        "background": {
+          "DEFAULT": "var(--background, 0 0% 100%)",
+          "dark": {
+            "DEFAULT": "240 10% 3.9%",
+          },
+        },
+        "btn-background": {
+          "DEFAULT": "var(--btn-background, hsl(var(--background)))",
+          "dark": "var(--btn-background-dark, hsl(var(--background)))",
+        },
         "btn-primary": {
-          "DEFAULT": "var(--btn-primary, var(--primary))",
-          "dark": "var(--btn-primary-dark, var(--primary))",
+          "DEFAULT": "var(--btn-primary, hsl(var(--primary)))",
+          "dark": "var(--btn-primary-dark, hsl(var(--primary)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--btn-primary-foreground, 0 0% 98%))",
-            "dark": "hsl(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
+            "DEFAULT": "var(--btn-primary-foreground, hsl(var(--primary-foreground)))",
+            "dark": "var(--btn-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
-            "dark": "hsl(var(--btn-primary-hover-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-primary-hover, hsl(var(--btn-primary) / 90%))",
+            "dark": "var(--btn-primary-hover-dark, hsl(var(--btn-primary) / 90%))",
           },
         },
         "mixedColors": {
@@ -702,6 +728,9 @@ describe('tailwind-theme-presets', () => {
           "DEFAULT": "var(--primary, 240 5.9% 10%)",
           "dark": {
             "DEFAULT": "0 0% 98%",
+          },
+          "light": {
+            "DEFAULT": "var(--primary-foreground)",
           },
         },
         "primary-foreground": {

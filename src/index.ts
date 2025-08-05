@@ -176,7 +176,8 @@ export function processTheme(theme: Theme) {
           else {
             // .themeKey 添加
             if (typeof cssVarValue === 'string') {
-              processed[':root'][processCssVarKey] = cssVarValue
+              processed[`.${cssVarKey}`] = processed[`.${cssVarKey}`] || {}
+              processed[`.${cssVarKey}`][`--${key}`] = cssVarValue
             }
             else if (Array.isArray(cssVarValue)) {
               processed[':root'][processCssVarKey] = cssVarValue[0]
