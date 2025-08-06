@@ -301,19 +301,25 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
       const innerContent = nestedMatch[2]
       // 保留透明度等修饰符
       const remainingContent = resolvedContent.replace(nestedFuncRegex, innerContent)
-      const result = `${funcName}(${remainingContent})`
 
-      // 如果有访问路径，添加注释
+      // 如果有访问路径，添加注释并替换变量引用
       if (finalVisited.length > 0) {
+        // 将原始变量引用替换为最终变量引用
+        const originalVar = `var(${finalVisited[0]})`
+        const finalVar = `var(${finalVisited.slice(-1)[0]})`
+        const result = match.replace(originalVar, finalVar)
         return `${result}/* ${finalVisited.join(' -> ')} */`
       }
-      return result
+      return `${funcName}(${remainingContent})`
     }
 
     const result = `${funcName}(${resolvedContent})`
-    // 如果有访问路径，添加注释
+    // 如果有访问路径，添加注释并替换变量引用
     if (finalVisited.length > 0) {
-      return `${result}/* ${finalVisited.join(' -> ')} */`
+      const originalVar = `var(${finalVisited[0]})`
+      const finalVar = `var(${finalVisited.slice(-1)[0]})`
+      const resultWithReplacedVar = match.replace(originalVar, finalVar)
+      return `${resultWithReplacedVar}/* ${finalVisited.join(' -> ')} */`
     }
     return result
   })
