@@ -25,8 +25,10 @@ interface Options {
   colorRule?: 'rgb' | 'hsl'
   safelist?: string[]
 }
+let flattenedTheme: Record<string, string> = {}
 export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
   const mergedTheme = deepMerge({}, theme) as Theme
+  flattenedTheme = flatten(mergedTheme)
   return {
     safelist: ['dark', ...(options.safelist || [])],
     theme: {
@@ -150,6 +152,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
 }
 
 export function processTheme(theme: Theme) {
+  flattenedTheme = flatten(theme)
   const processed: ThemeVar = {
     ':root': {},
   }
@@ -204,16 +207,26 @@ function processedTheme(
       if (key === 'DEFAULT') {
         // :root 添加
         if (typeof value === 'string') {
-          processed[':root'][prefixKey] = value
+          if (/(?:hsl|rgb)\(var\(/.test(value))
+            processed[':root'][prefixKey] = resolvedValue(value)
+          else
+            processed[':root'][prefixKey] = value
         }
         else if (Array.isArray(value)) {
-          processed[':root'][prefixKey] = value[0]
+          if (/(?:hsl|rgb)\(var\(/.test(value[0]))
+            processed[':root'][prefixKey] = resolvedValue(value[0])
+          else
+            processed[':root'][prefixKey] = value[0]
         }
       }
       else if (typeof value === 'string') {
         // .themeKey 添加
         processed[`.${key}`] = processed[`.${key}`] || {}
-        processed[`.${key}`][prefixKey] = value
+        // 如果 value 是 hsl 或 rgb 格式 (var(--)) 的形式就要使用 resolvedValue 向下递归去找是否存在 hsl 或 rgb 嵌套的场景去处理
+        if (/(?:hsl|rgb)\(var\(/.test(value))
+          processed[`.${key}`][prefixKey] = resolvedValue(value)
+        else
+          processed[`.${key}`][prefixKey] = value
       }
     }
   }
@@ -260,13 +273,121 @@ function deepMerge<T extends Record<string, any>>(...args: T[]): T {
   return target
 }
 
-export function flattenedTheme(theme: Theme): Record<string, string> {
+function resolvedValue(cssVarValue: string): string {
+  return resolveNestedColorFunctions(cssVarValue, [], new Set())
+}
+
+/**
+ * 递归解析嵌套的颜色函数和变量引用
+ * @param value 要处理的CSS值
+ * @param visited 已访问的变量路径数组，用于生成注释
+ * @param visitedSet 已访问的变量集合，防止循环引用
+ */
+function resolveNestedColorFunctions(value: string, visited: string[], visitedSet: Set<string>): string {
+  // 匹配颜色函数的正则表达式：hsl(...) 或 rgb(...)
+  const colorFuncRegex = /(hsl|rgb|rgba|hsla)\s*\((.*)\)/g
+
+  return value.replace(colorFuncRegex, (match, funcName, content) => {
+    // 解析内容中的变量引用
+    const { resolvedContent, finalVisited } = resolveVariablesInContent(content, visited, visitedSet)
+
+    // 检查解析后的内容是否包含同类型的嵌套函数
+    const nestedFuncRegex = new RegExp(`(${funcName})\\s*\\(([^)]+)\\)`)
+    const nestedMatch = resolvedContent.match(nestedFuncRegex)
+
+    if (nestedMatch) {
+      // 如果有同类型嵌套，提取内部内容
+      const innerContent = nestedMatch[2]
+      // 保留透明度等修饰符
+      const remainingContent = resolvedContent.replace(nestedFuncRegex, innerContent)
+      const result = `${funcName}(${remainingContent})`
+
+      // 如果有访问路径，添加注释
+      if (finalVisited.length > 0) {
+        return `${result}/* ${finalVisited.join(' -> ')} */`
+      }
+      return result
+    }
+
+    const result = `${funcName}(${resolvedContent})`
+    // 如果有访问路径，添加注释
+    if (finalVisited.length > 0) {
+      return `${result}/* ${finalVisited.join(' -> ')} */`
+    }
+    return result
+  })
+}
+
+/**
+ * 解析内容中的变量引用
+ * @param content 要解析的内容
+ * @param visited 已访问的变量路径数组
+ * @param visitedSet 已访问的变量集合
+ * @returns 解析后的内容和更新的访问路径
+ */
+function resolveVariablesInContent(
+  content: string,
+  visited: string[],
+  visitedSet: Set<string>,
+): { resolvedContent: string, finalVisited: string[] } {
+  // 匹配 var(--variable-name) 的正则表达式
+  // eslint-disable-next-line regexp/optimal-quantifier-concatenation,regexp/no-super-linear-backtracking
+  const varRegex = /var\s*\(\s*(--[^,)]+)(?:\s*,\s*([^)]+))?\s*\)/g
+  let finalVisited = [...visited]
+
+  const resolvedContent = content.replace(varRegex, (match, varName) => {
+    // 防止循环引用
+    if (visitedSet.has(varName)) {
+      return match
+    }
+
+    // 查找变量值
+    const varValue = flattenedTheme[varName]
+    if (!varValue) {
+      return match // 如果找不到变量，保持原样
+    }
+
+    // 创建新的访问集合和路径
+    const newVisitedSet = new Set(visitedSet)
+    newVisitedSet.add(varName)
+    const newVisited = [...visited, varName]
+
+    // 检查变量值是否是颜色函数
+    const colorFuncMatch = varValue.match(/^(hsl|rgb|rgba|hsla)\s*\((.+)\)$/)
+    if (colorFuncMatch) {
+      const [, _funcName, innerContent] = colorFuncMatch
+
+      // 递归解析内部内容
+      const { resolvedContent: resolvedInnerContent, finalVisited: innerFinalVisited }
+        = resolveVariablesInContent(innerContent, newVisited, newVisitedSet)
+
+      // 更新最终访问路径
+      finalVisited = innerFinalVisited
+
+      // 返回解析后的内容，不包含外层函数包装
+      return resolvedInnerContent
+    }
+    else {
+      // 如果不是颜色函数，递归解析变量值
+      const resolvedVarValue = resolveNestedColorFunctions(varValue, newVisited, newVisitedSet)
+
+      // 更新最终访问路径
+      finalVisited = newVisited
+
+      return resolvedVarValue
+    }
+  })
+
+  return { resolvedContent, finalVisited }
+}
+
+export function flatten(theme: Theme): Record<string, string> {
   const result: Record<string, string> = {}
 
   function recurse(curr: any, prefix: string) {
     for (const key in curr) {
       const value = curr[key]
-      const newKey = prefix ? key === 'DEFAULT' ? prefix : `${prefix}-${key}` : key
+      const newKey = prefix ? key === 'DEFAULT' ? prefix : `${prefix}-${key}` : `--${key}`
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
         recurse(value, newKey)
       }
