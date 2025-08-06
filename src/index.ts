@@ -152,7 +152,8 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
 }
 
 export function processTheme(theme: Theme) {
-  flattenedTheme = flatten(theme)
+  // 这个应该只在测试环境使用
+  // flattenedTheme = flatten(theme)
   const processed: ThemeVar = {
     ':root': {},
   }
