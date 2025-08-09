@@ -740,4 +740,47 @@ describe('tailwind-theme-presets', () => {
       }
     `)
   })
+
+  it('custom test', () => {
+    const theme = {
+      background: {
+        DEFAULT: 'hsl(0 0% 100%)',
+        dark: 'hsl(240 10% 3.9%)',
+      },
+      switch: {
+        background: {
+          DEFAULT: 'hsl(var(--background))',
+          dark: 'hsl(var(--background))',
+        },
+      },
+    }
+
+    expect(processTheme(theme)).toMatchInlineSnapshot(`
+      {
+        ".dark": {
+          "--background": "hsl(240 10% 3.9%)",
+          "--switch-background": "hsl(var(--background))",
+        },
+        ":root": {
+          "--background": "hsl(0 0% 100%)",
+          "--switch-background": "hsl(var(--background))",
+        },
+      }
+    `)
+
+    expect(generateColors(theme)).toMatchInlineSnapshot(`
+      {
+        "background": {
+          "DEFAULT": "var(--background, hsl(0 0% 100%))",
+          "dark": {
+            "DEFAULT": "hsl(240 10% 3.9%)",
+          },
+        },
+        "switch-background": {
+          "DEFAULT": "var(--switch-background, hsl(var(--background)))",
+          "dark": "var(--switch-background-dark, hsl(var(--background)))",
+        },
+      }
+    `)
+  })
 })

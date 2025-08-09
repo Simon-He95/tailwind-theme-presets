@@ -132,7 +132,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
 
         // 检查是否为已经是完整的颜色格式，不需要包装
         const isCompleteColor
-          = /^(?:rgb|rgba|hsl|hsla)\s*\(/.test(colorString) // rgb(), rgba(), hsl(), hsla()
+          = /^(?:rgba?|hsla?)\s*\(/.test(colorString) // rgb(), rgba(), hsl(), hsla()
             || /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(colorString) // 十六进制
             || /^var\s*\(/.test(colorString) // CSS 变量
 
@@ -171,20 +171,33 @@ export function processTheme(theme: Theme) {
           if (cssVarKey === 'DEFAULT') {
             // :root 添加
             if (typeof cssVarValue === 'string') {
-              processed[':root'][`--${key}`] = cssVarValue
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue))
+                processed[':root'][`--${key}`] = resolvedValue(cssVarValue)
+              else
+                processed[':root'][`--${key}`] = cssVarValue
             }
             else if (Array.isArray(cssVarValue)) {
-              processed[':root'][`--${key}`] = cssVarValue[0]
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue[0]))
+                processed[':root'][`--${key}`] = resolvedValue(cssVarValue[0])
+              else
+                processed[':root'][`--${key}`] = cssVarValue[0]
             }
           }
           else {
             // .themeKey 添加
             if (typeof cssVarValue === 'string') {
               processed[`.${cssVarKey}`] = processed[`.${cssVarKey}`] || {}
-              processed[`.${cssVarKey}`][`--${key}`] = cssVarValue
+              // 如果 value 是 hsl 或 rgb 格式 (var(--)) 的形式就要使用 resolvedValue 向下递归去找是否存在 hsl 或 rgb 嵌套的场景去处理
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue))
+                processed[`.${cssVarKey}`][`--${key}`] = resolvedValue(cssVarValue)
+              else
+                processed[`.${cssVarKey}`][`--${key}`] = cssVarValue
             }
             else if (Array.isArray(cssVarValue)) {
-              processed[':root'][processCssVarKey] = cssVarValue[0]
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue[0]))
+                processed[':root'][processCssVarKey] = resolvedValue(cssVarValue[0])
+              else
+                processed[':root'][processCssVarKey] = cssVarValue[0]
             }
           }
         }
@@ -303,7 +316,7 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
       const remainingContent = resolvedContent.replace(nestedFuncRegex, innerContent)
 
       // 如果有访问路径，添加注释并替换变量引用
-      if (finalVisited.length > 0) {
+      if (finalVisited.length > 1) {
         // 将原始变量引用替换为最终变量引用
         const originalVar = `var(${finalVisited[0]})`
         const finalVar = `var(${finalVisited.slice(-1)[0]})`
@@ -315,13 +328,13 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
 
     const result = `${funcName}(${resolvedContent})`
     // 如果有访问路径，添加注释并替换变量引用
-    if (finalVisited.length > 0) {
+    if (finalVisited.length > 1) {
       const originalVar = `var(${finalVisited[0]})`
       const finalVar = `var(${finalVisited.slice(-1)[0]})`
       const resultWithReplacedVar = match.replace(originalVar, finalVar)
       return `${resultWithReplacedVar}/* ${finalVisited.join(' -> ')} */`
     }
-    return result
+    return result + (finalVisited.length ? `/* ${finalVisited.join(' -> ')} */` : '')
   })
 }
 
