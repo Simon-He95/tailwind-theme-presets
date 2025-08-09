@@ -26,6 +26,7 @@ interface Options {
   safelist?: string[]
 }
 let flattenedTheme: Record<string, string> = {}
+// todo：针对一些 #fff 这里可以考虑 转换 成 hsl 或 rgb 形式以便更好地处理颜色
 export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
   const mergedTheme = deepMerge({}, theme) as Theme
   flattenedTheme = flatten(mergedTheme)
