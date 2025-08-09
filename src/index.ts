@@ -335,7 +335,10 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
       const resultWithReplacedVar = match.replace(originalVar, finalVar)
       return `${resultWithReplacedVar}/* ${finalVisited.join(' -> ')} */`
     }
-    return result + (finalVisited.length ? `/* ${finalVisited.join(' -> ')} */` : '')
+    else if (finalVisited.length) {
+      return `${content}/* ${finalVisited.join(' -> ')} */`
+    }
+    return result
   })
 }
 

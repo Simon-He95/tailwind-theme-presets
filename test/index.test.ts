@@ -759,11 +759,11 @@ describe('tailwind-theme-presets', () => {
       {
         ".dark": {
           "--background": "hsl(240 10% 3.9%)",
-          "--switch-background": "hsl(var(--background))",
+          "--switch-background": "var(--background)/* --background */",
         },
         ":root": {
           "--background": "hsl(0 0% 100%)",
-          "--switch-background": "hsl(var(--background))",
+          "--switch-background": "var(--background)/* --background */",
         },
       }
     `)
