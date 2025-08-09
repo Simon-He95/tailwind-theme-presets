@@ -43,6 +43,8 @@ export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
 }
 
 export function generateColors(theme: Theme, options: Options = { colorRule: 'hsl' }) {
+  // 测试环境
+  // flattenedTheme = flatten(theme)
   const colors: Theme = {}
   for (const key in theme) {
     const value = theme[key]
@@ -57,8 +59,30 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
         else {
           if (cssVarKey === 'DEFAULT') {
             // :root 添加
-            colors[key] = {
-              DEFAULT: `var(--${key}, ${colorValue})`,
+            if (typeof colorValue === 'string') {
+              colors[key] = {
+                DEFAULT: `var(--${key}, ${resolvedValue(colorValue)})`,
+              }
+            }
+            else if (Array.isArray(colorValue)) {
+              colors[key] = {
+                DEFAULT: `var(--${key}, ${resolvedValue(colorValue[0])})`,
+              }
+              if (colorValue[1] === undefined) {
+                colors[key] = {
+                  DEFAULT: `var(--${colorKey}, ${resolvedValue(colorValue[0])})`,
+                }
+              }
+              else if (typeof colorValue[1] === 'string') {
+                colors[key] = {
+                  DEFAULT: `${colorValue[1]}(var(--${colorKey}, ${resolvedValue(colorValue[0])}))`,
+                }
+              }
+              else if (typeof colorValue[1] === 'function') {
+                colors[key] = {
+                  DEFAULT: colorValue[1](`--${colorKey}`, colorValue[0]),
+                }
+              }
             }
           }
           else {
@@ -67,15 +91,15 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
             colors[key][cssVarKey] = colors[key][cssVarKey] || {}
             if (typeof colorValue === 'string') {
               colors[key][cssVarKey] = {
-                DEFAULT: colorValue,
+                DEFAULT: resolvedValue(colorValue),
               }
             }
             else if (Array.isArray(colorValue)) {
               if (colorValue[1] === undefined) {
-                colors[key][cssVarKey] = `var(--${colorKey}, ${colorValue[0]})`
+                colors[key][cssVarKey] = `var(--${colorKey}, ${resolvedValue(colorValue[0])})`
               }
               else if (typeof colorValue[1] === 'string') {
-                colors[key][cssVarKey] = `${colorValue[1]}(var(--${colorKey}, ${colorValue[0]}))`
+                colors[key][cssVarKey] = `${colorValue[1]}(var(--${colorKey}, ${resolvedValue(colorValue[0])}))`
               }
               else if (typeof colorValue[1] === 'function') {
                 colors[key][cssVarKey] = colorValue[1](`--${colorKey}`, colorValue[0])
@@ -105,7 +129,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
           colorString = value[0]
           const secondParam = value.length > 1 ? value[1] : undefined // 如果只有一个元素，默认为 undefined
           if (typeof secondParam === 'string') {
-            colorRule = secondParam
+            colorRule = resolvedValue(secondParam)
           }
           else if (typeof secondParam === 'function') {
             customHandler = secondParam
@@ -117,7 +141,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
           }
         }
         else if (typeof value === 'string') {
-          colorString = value
+          colorString = resolvedValue(value)
         }
         else {
           continue
@@ -336,6 +360,10 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
       return `${resultWithReplacedVar}/* ${finalVisited.join(' -> ')} */`
     }
     else if (finalVisited.length) {
+      const v = flattenedTheme[finalVisited[0]]
+      if (/(?:hsl|rgb)\(var\(/.test(v)) {
+        return `${result}/* ${finalVisited.join(' -> ')} */`
+      }
       return `${content}/* ${finalVisited.join(' -> ')} */`
     }
     return result

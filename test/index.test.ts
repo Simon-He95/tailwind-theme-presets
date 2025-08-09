@@ -753,17 +753,50 @@ describe('tailwind-theme-presets', () => {
           dark: 'hsl(var(--background))',
         },
       },
+      destructive: {
+        DEFAULT: '0 84.2% 60.2%',
+        dark: '0 62.8% 30.6%',
+        foreground: {
+          DEFAULT: '0 0% 98%',
+          dark: '0 0% 98%',
+        },
+      },
+      btn: {
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          dark: 'hsl(var(--destructive))',
+          hover: {
+            DEFAULT: 'hsl(var(--btn-destructive) / 90%)',
+            dark: 'hsl(var(--btn-destructive) / 90%)',
+          },
+          foreground: {
+            DEFAULT: 'hsl(var(--destructive-foreground))',
+            dark: 'hsl(var(--destructive-foreground))',
+          },
+        },
+
+      },
     }
 
     expect(processTheme(theme)).toMatchInlineSnapshot(`
       {
         ".dark": {
           "--background": "hsl(240 10% 3.9%)",
-          "--switch-background": "var(--background)/* --background */",
+          "--btn-destructive": "hsl(var(--destructive))",
+          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--btn-destructive-hover": "hsl(var(--btn-destructive) / 90%)",
+          "--destructive": "0 62.8% 30.6%",
+          "--destructive-foreground": "0 0% 98%",
+          "--switch-background": "hsl(var(--background))",
         },
         ":root": {
           "--background": "hsl(0 0% 100%)",
-          "--switch-background": "var(--background)/* --background */",
+          "--btn-destructive": "hsl(var(--destructive))",
+          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--btn-destructive-hover": "hsl(var(--btn-destructive) / 90%)",
+          "--destructive": "0 84.2% 60.2%",
+          "--destructive-foreground": "0 0% 98%",
+          "--switch-background": "hsl(var(--background))",
         },
       }
     `)
@@ -775,6 +808,28 @@ describe('tailwind-theme-presets', () => {
           "dark": {
             "DEFAULT": "hsl(240 10% 3.9%)",
           },
+        },
+        "btn-destructive": {
+          "DEFAULT": "var(--btn-destructive, hsl(var(--destructive)))",
+          "dark": "var(--btn-destructive-dark, hsl(var(--destructive)))",
+          "foreground": {
+            "DEFAULT": "var(--btn-destructive-foreground, hsl(var(--destructive-foreground)))",
+            "dark": "var(--btn-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-destructive-hover, hsl(var(--btn-destructive) / 90%))",
+            "dark": "var(--btn-destructive-hover-dark, hsl(var(--btn-destructive) / 90%))",
+          },
+        },
+        "destructive": {
+          "DEFAULT": "var(--destructive, 0 84.2% 60.2%)",
+          "dark": {
+            "DEFAULT": "0 62.8% 30.6%",
+          },
+        },
+        "destructive-foreground": {
+          "DEFAULT": "hsl(var(--destructive-foreground, 0 0% 98%))",
+          "dark": "hsl(var(--destructive-foreground-dark, 0 0% 98%))",
         },
         "switch-background": {
           "DEFAULT": "var(--switch-background, hsl(var(--background)))",
