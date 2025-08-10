@@ -24,6 +24,9 @@ export type DeepPartial<T> = {
 interface Options {
   colorRule?: 'rgb' | 'hsl'
   safelist?: string[]
+  theme?: Record<string, any>
+  darkMode?: boolean | string[]
+  content?: string[]
 }
 let flattenedTheme: Record<string, string> = {}
 // todo：针对一些 #fff 这里可以考虑 转换 成 hsl 或 rgb 形式以便更好地处理颜色
@@ -32,9 +35,12 @@ export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
   flattenedTheme = flatten(mergedTheme)
   return {
     safelist: ['dark', ...(options.safelist || [])],
+    darkMode: options.darkMode,
+    content: options.content || [],
     theme: {
       extend: {
         colors: generateColors(mergedTheme, options),
+        ...(options.theme || {}),
       },
       // 这里可以添加更多的主题配置
     },
@@ -44,7 +50,7 @@ export function presetTheme(theme: DeepPartial<Theme>, options: Options) {
 
 export function generateColors(theme: Theme, options: Options = { colorRule: 'hsl' }) {
   // 测试环境
-  // flattenedTheme = flatten(theme)
+  flattenedTheme = flatten(theme)
   const colors: Theme = {}
   for (const key in theme) {
     const value = theme[key]
@@ -178,7 +184,7 @@ export function generateColors(theme: Theme, options: Options = { colorRule: 'hs
 
 export function processTheme(theme: Theme) {
   // 这个应该只在测试环境使用
-  // flattenedTheme = flatten(theme)
+  flattenedTheme = flatten(theme)
   const processed: ThemeVar = {
     ':root': {},
   }
@@ -361,10 +367,10 @@ function resolveNestedColorFunctions(value: string, visited: string[], visitedSe
     }
     else if (finalVisited.length) {
       const v = flattenedTheme[finalVisited[0]]
-      if (/(?:hsl|rgb)\(var\(/.test(v)) {
-        return `${result}/* ${finalVisited.join(' -> ')} */`
+      if (/hsl|rgb/.test(v)) {
+        return `${content}/* ${finalVisited.join(' -> ')} */`
       }
-      return `${content}/* ${finalVisited.join(' -> ')} */`
+      return match
     }
     return result
   })

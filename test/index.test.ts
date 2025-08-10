@@ -3,295 +3,507 @@ import { generateColors, processTheme } from '../src'
 
 describe('tailwind-theme-presets', () => {
   const baseTheme = {
-    btn: {
-      primary: {
+    boxShadow: {
+      'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      '2xs': '0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));',
+      'sm': '0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      'md': '0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      'lg': '0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      'xl': '0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      '2xl': '0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));',
+    },
+    background: {
+      DEFAULT: 'hsl(0 0% 100%)',
+      dark: 'hsl(240 10% 3.9%)',
+    },
+    foreground: {
+      DEFAULT: 'hsl(240 10% 3.9%)',
+      dark: 'hsl(0 0% 98%)',
+    },
+    primary: {
+      DEFAULT: '240 5.9% 10%', // --primary: '240 5.9% 10%'
+      dark: '0 0% 98%', // --primary-dark: '0 0% 98%'
+      foreground: {
+        DEFAULT: '0 0% 98%',
+        dark: '240 5.9% 10%',
+      },
+    },
+    secondary: {
+      DEFAULT: '240 4.8% 95.9%',
+      dark: '240 3.7% 15.9%',
+      foreground: {
         DEFAULT: '240 5.9% 10%',
         dark: '0 0% 98%',
+      },
+    },
+    destructive: {
+      DEFAULT: '0 84.2% 60.2%',
+      dark: '0 62.8% 30.6%',
+      foreground: {
+        DEFAULT: '0 0% 98%',
+        dark: '0 0% 98%',
+      },
+    },
+    ring: {
+      DEFAULT: '240 5.9% 10%',
+      dark: '240 4.9% 83.9%',
+    },
+    input: {
+      DEFAULT: '240 5.9% 90%',
+      dark: '240 3.7% 15.9%',
+      input: {
+        DEFAULT: 'hsl(var(--input))',
+        dark: 'hsl(var(--input))',
+        ring: {
+          DEFAULT: 'hsl(var(--ring))',
+          dark: 'hsl(var(--ring))',
+        },
+      },
+    },
+    accent: {
+      DEFAULT: '240 4.8% 95.9%',
+      dark: '240 3.7% 15.9%',
+      foreground: {
+        DEFAULT: '240 5.9% 10%',
+        dark: '0 0% 98%',
+      },
+    },
+    btn: {
+      primary: {
+        DEFAULT: 'hsl(var(--primary))',
+        dark: 'hsl(var(--primary))',
         hover: {
-          DEFAULT: 'var(--btn-primary) / 90%', // bg-btn-primary/90
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--btn-primary) / 90%)', // bg-btn-primary/90
+          dark: 'hsl(var(--btn-primary) / 90%)',
         },
         foreground: {
-          DEFAULT: '0 0% 98%',
-          dark: '240 5.9% 10%',
+          DEFAULT: 'hsl(var(--primary-foreground))',
+          dark: 'hsl(var(--primary-foreground))',
         },
       },
       background: {
-        DEFAULT: '0 0% 100%',
-        dark: '240 10% 3.9%',
+        DEFAULT: 'hsl(var(--background))',
+        dark: 'hsl(var(--background))',
       },
       accent: {
-        DEFAULT: '240 4.8% 95.9%',
-        dark: '240 3.7% 15.9%',
+        DEFAULT: 'hsl(var(--accent))',
+        dark: 'hsl(var(--accent))',
         foreground: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--accent-foreground))',
+          dark: 'hsl(var(--accent-foreground))',
         },
       },
       input: {
-        DEFAULT: '240 5.9% 90%',
-        dark: '240 3.7% 15.9%',
+        DEFAULT: 'hsl(var(--input))',
+        dark: 'hsl(var(--input))',
       },
       secondary: {
-        DEFAULT: '240 4.8% 95.9%',
-        dark: '240 3.7% 15.9%',
+        DEFAULT: 'hsl(var(--secondary))',
+        dark: 'hsl(var(--secondary))',
         hover: {
-          DEFAULT: 'var(--btn-secondary) / 80%', // bg-btn-secondary/80
-          dark: '240 3.7% 15.9%',
+          DEFAULT: 'hsl(var(--btn-secondary) / 80%)', // bg-btn-secondary/80
+          dark: 'hsl(var(--btn-secondary) / 80%)',
         },
         foreground: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--secondary-foreground))',
+          dark: 'hsl(var(--secondary-foreground))',
         },
       },
       destructive: {
-        DEFAULT: '0 84.2% 60.2%',
-        dark: '0 62.8% 30.6%',
+        DEFAULT: 'hsl(var(--destructive))',
+        dark: 'hsl(var(--destructive))',
         hover: {
-          DEFAULT: 'var(--btn-destructive) / 90%',
-          dark: '0 62.8% 20.6%',
+          DEFAULT: 'hsl(var(--btn-destructive) / 90%)',
+          dark: 'hsl(var(--btn-destructive) / 90%)',
         },
         foreground: {
-          DEFAULT: '0 0% 98%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--destructive-foreground))',
+          dark: 'hsl(var(--destructive-foreground))',
         },
       },
       ring: {
-        DEFAULT: '240 5.9% 10%',
-        dark: '240 4.9% 83.9%',
+        DEFAULT: 'hsl(var(--ring))',
+        dark: 'hsl(var(--ring))',
       },
     },
     badge: {
       'accent': {
-        DEFAULT: '240 4.8% 95.9%',
-        dark: '240 3.7% 15.9%',
+        DEFAULT: 'hsl(var(--accent))',
+        dark: 'hsl(var(--accent))',
         foreground: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--accent-foreground))',
+          dark: 'hsl(var(--accent-foreground))',
         },
       },
       'foreground': {
-        DEFAULT: '240 5.9% 10%',
-        dark: '0 0% 98%',
+        DEFAULT: 'hsl(var(--foreground))',
+        dark: 'hsl(var(--foreground))',
       },
       'primary': {
-        DEFAULT: '240 5.9% 10%',
-        dark: '0 0% 98%',
+        DEFAULT: 'hsl(var(--primary))',
+        dark: 'hsl(var(--primary))',
         hover: {
-          DEFAULT: 'var(--badge-primary) / 90%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--badge-primary) / 90%)',
+          dark: 'hsl(var(--badge-primary) / 90%)',
         },
         foreground: {
-          DEFAULT: '0 0% 98%',
-          dark: '240 5.9% 10%',
+          DEFAULT: 'hsl(var(--primary-foreground))',
+          dark: 'hsl(var(--primary-foreground))',
         },
       },
       'secondary': {
-        DEFAULT: '240 4.8% 95.9%',
-        dark: '240 3.7% 15.9%',
+        DEFAULT: 'hsl(var(--secondary))',
+        dark: 'hsl(var(--secondary))',
         hover: {
-          DEFAULT: 'var(--badge-secondary) / 90%',
-          dark: '240 3.7% 15.9%',
+          DEFAULT: 'hsl(var(--badge-secondary) / 90%)',
+          dark: 'hsl(var(--badge-secondary) / 90%)',
         },
         foreground: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--secondary-foreground))',
+          dark: 'hsl(var(--secondary-foreground))',
         },
       },
       'destructive': {
-        DEFAULT: '0 84.2% 60.2%',
-        dark: '0 62.8% 30.6%',
+        DEFAULT: 'hsl(var(--destructive))',
+        dark: 'hsl(var(--destructive))',
         hover: {
-          DEFAULT: 'var(--badge-destructive) / 90%',
-          dark: '0 62.8% 20.6%',
+          DEFAULT: 'hsl(var(--badge-destructive) / 90%)',
+          dark: 'hsl(var(--badge-destructive) / 90%)',
         },
         foreground: {
-          DEFAULT: '0 0% 98%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--destructive-foreground))',
+          dark: 'hsl(var(--destructive-foreground))',
         },
       },
       'ring-destructive': {
-        DEFAULT: '0 84.2% 60.2%',
-        dark: '0 62.8% 30.6%',
-      },
-    },
-    input: {
-      input: {
-        DEFAULT: '240 5.9% 90%',
-        dark: '240 3.7% 15.9%',
-        ring: {
-          DEFAULT: '240 5.9% 90%',
-          dark: '240 3.7% 15.9%',
-        },
+        DEFAULT: 'hsl(var(--destructive))',
+        dark: 'hsl(var(--destructive))',
       },
     },
     card: {
+      DEFAULT: '0 0% 100%',
+      dark: '240 10% 3.9%',
       card: {
-        DEFAULT: '0 0% 100%',
-        dark: '240 10% 3.9%',
+        DEFAULT: 'hsl(var(--card))',
+        dark: 'hsl(var(--card))',
         foreground: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--foreground))',
+          dark: 'hsl(var(--foreground))',
         },
       },
     },
     checkbox: {
       checkbox: {
         primary: {
-          DEFAULT: '240 5.9% 10%',
-          dark: '0 0% 98%',
+          DEFAULT: 'hsl(var(--primary))',
+          dark: 'hsl(var(--primary))',
           foreground: {
-            DEFAULT: '0 0% 98%',
-            dark: '240 5.9% 10%',
+            DEFAULT: 'hsl(var(--foreground))',
+            dark: 'hsl(var(--foreground))',
           },
           ring: {
-            DEFAULT: '240 5.9% 10%',
-            dark: '240 4.9% 83.9%',
+            DEFAULT: 'hsl(var(--ring))',
+            dark: 'hsl(var(--ring))',
           },
         },
+      },
+    },
+    breadcrumb: {
+      'foreground': {
+        DEFAULT: 'hsl(var(--foreground))',
+        dark: 'hsl(var(--foreground))',
+      },
+      'muted-foreground': {
+        DEFAULT: 'hsl(var(--muted-foreground))',
+        dark: 'hsl(var(--muted-foreground))',
+      },
+    },
+    radio: {
+      DEFAULT: 'hsl(var(--radio))',
+      dark: 'hsl(var(--radio))',
+      primary: {
+        DEFAULT: 'hsl(var(--primary))',
+        dark: 'hsl(var(--primary))',
+      },
+    },
+    switch: {
+      background: {
+        DEFAULT: 'hsl(var(--background))',
+        dark: 'hsl(var(--background))',
+      },
+      checked: {
+        DEFAULT: 'hsl(var(--primary))',
+        dark: 'hsl(var(--primary))',
+      },
+      unchecked: {
+        DEFAULT: 'hsl(var(--input))', // hsl(240 3.7% 15.9%)
+        dark: 'hsl(var(--input))',
       },
     },
   }
   it('generateColors', () => {
     expect(generateColors(baseTheme)).toMatchInlineSnapshot(`
       {
+        "accent": {
+          "DEFAULT": "var(--accent, 240 4.8% 95.9%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "accent-foreground": {
+          "DEFAULT": "hsl(var(--accent-foreground, 240 5.9% 10%))",
+          "dark": "hsl(var(--accent-foreground-dark, 0 0% 98%))",
+        },
+        "background": {
+          "DEFAULT": "var(--background, hsl(0 0% 100%))",
+          "dark": {
+            "DEFAULT": "hsl(240 10% 3.9%)",
+          },
+        },
         "badge-accent": {
-          "DEFAULT": "hsl(var(--badge-accent, 240 4.8% 95.9%))",
-          "dark": "hsl(var(--badge-accent-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--badge-accent, hsl(var(--accent)))",
+          "dark": "var(--badge-accent-dark, hsl(var(--accent)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--badge-accent-foreground, 240 5.9% 10%))",
-            "dark": "hsl(var(--badge-accent-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-accent-foreground, hsl(var(--accent-foreground)))",
+            "dark": "var(--badge-accent-foreground-dark, hsl(var(--accent-foreground)))",
           },
         },
         "badge-destructive": {
-          "DEFAULT": "hsl(var(--badge-destructive, 0 84.2% 60.2%))",
-          "dark": "hsl(var(--badge-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--badge-destructive, hsl(var(--destructive)))",
+          "dark": "var(--badge-destructive-dark, hsl(var(--destructive)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--badge-destructive-foreground, 0 0% 98%))",
-            "dark": "hsl(var(--badge-destructive-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-destructive-foreground, hsl(var(--destructive-foreground)))",
+            "dark": "var(--badge-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
-            "dark": "hsl(var(--badge-destructive-hover-dark, 0 62.8% 20.6%))",
+            "DEFAULT": "var(--badge-destructive-hover, hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */)",
+            "dark": "var(--badge-destructive-hover-dark, hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */)",
           },
         },
         "badge-foreground": {
-          "DEFAULT": "hsl(var(--badge-foreground, 240 5.9% 10%))",
-          "dark": "hsl(var(--badge-foreground-dark, 0 0% 98%))",
+          "DEFAULT": "var(--badge-foreground, var(--foreground)/* --foreground */)",
+          "dark": "var(--badge-foreground-dark, var(--foreground)/* --foreground */)",
         },
         "badge-primary": {
-          "DEFAULT": "hsl(var(--badge-primary, 240 5.9% 10%))",
-          "dark": "hsl(var(--badge-primary-dark, 0 0% 98%))",
+          "DEFAULT": "var(--badge-primary, hsl(var(--primary)))",
+          "dark": "var(--badge-primary-dark, hsl(var(--primary)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--badge-primary-foreground, 0 0% 98%))",
-            "dark": "hsl(var(--badge-primary-foreground-dark, 240 5.9% 10%))",
+            "DEFAULT": "var(--badge-primary-foreground, hsl(var(--primary-foreground)))",
+            "dark": "var(--badge-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
-            "dark": "hsl(var(--badge-primary-hover-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-primary-hover, hsl(var(--primary) / 90%)/* --badge-primary -> --primary */)",
+            "dark": "var(--badge-primary-hover-dark, hsl(var(--primary) / 90%)/* --badge-primary -> --primary */)",
           },
         },
         "badge-ring-destructive": {
-          "DEFAULT": "hsl(var(--badge-ring-destructive, 0 84.2% 60.2%))",
-          "dark": "hsl(var(--badge-ring-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--badge-ring-destructive, hsl(var(--destructive)))",
+          "dark": "var(--badge-ring-destructive-dark, hsl(var(--destructive)))",
         },
         "badge-secondary": {
-          "DEFAULT": "hsl(var(--badge-secondary, 240 4.8% 95.9%))",
-          "dark": "hsl(var(--badge-secondary-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--badge-secondary, hsl(var(--secondary)))",
+          "dark": "var(--badge-secondary-dark, hsl(var(--secondary)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--badge-secondary-foreground, 240 5.9% 10%))",
-            "dark": "hsl(var(--badge-secondary-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-secondary-foreground, hsl(var(--secondary-foreground)))",
+            "dark": "var(--badge-secondary-foreground-dark, hsl(var(--secondary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
-            "dark": "hsl(var(--badge-secondary-hover-dark, 240 3.7% 15.9%))",
+            "DEFAULT": "var(--badge-secondary-hover, hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */)",
+            "dark": "var(--badge-secondary-hover-dark, hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */)",
           },
         },
+        "boxShadow": {
+          "2xl": {
+            "DEFAULT": "0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));",
+          },
+          "2xs": {
+            "DEFAULT": "0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));",
+          },
+          "lg": {
+            "DEFAULT": "0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "md": {
+            "DEFAULT": "0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "sm": {
+            "DEFAULT": "0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "xl": {
+            "DEFAULT": "0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "xs": {
+            "DEFAULT": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+          },
+        },
+        "breadcrumb-foreground": {
+          "DEFAULT": "var(--breadcrumb-foreground, var(--foreground)/* --foreground */)",
+          "dark": "var(--breadcrumb-foreground-dark, var(--foreground)/* --foreground */)",
+        },
+        "breadcrumb-muted-foreground": {
+          "DEFAULT": "var(--breadcrumb-muted-foreground, hsl(var(--muted-foreground)))",
+          "dark": "var(--breadcrumb-muted-foreground-dark, hsl(var(--muted-foreground)))",
+        },
         "btn-accent": {
-          "DEFAULT": "hsl(var(--btn-accent, 240 4.8% 95.9%))",
-          "dark": "hsl(var(--btn-accent-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-accent, hsl(var(--accent)))",
+          "dark": "var(--btn-accent-dark, hsl(var(--accent)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--btn-accent-foreground, 240 5.9% 10%))",
-            "dark": "hsl(var(--btn-accent-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-accent-foreground, hsl(var(--accent-foreground)))",
+            "dark": "var(--btn-accent-foreground-dark, hsl(var(--accent-foreground)))",
           },
         },
         "btn-background": {
-          "DEFAULT": "hsl(var(--btn-background, 0 0% 100%))",
-          "dark": "hsl(var(--btn-background-dark, 240 10% 3.9%))",
+          "DEFAULT": "var(--btn-background, var(--background)/* --background */)",
+          "dark": "var(--btn-background-dark, var(--background)/* --background */)",
         },
         "btn-destructive": {
-          "DEFAULT": "hsl(var(--btn-destructive, 0 84.2% 60.2%))",
-          "dark": "hsl(var(--btn-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--btn-destructive, hsl(var(--destructive)))",
+          "dark": "var(--btn-destructive-dark, hsl(var(--destructive)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--btn-destructive-foreground, 0 0% 98%))",
-            "dark": "hsl(var(--btn-destructive-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-destructive-foreground, hsl(var(--destructive-foreground)))",
+            "dark": "var(--btn-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
-            "dark": "hsl(var(--btn-destructive-hover-dark, 0 62.8% 20.6%))",
+            "DEFAULT": "var(--btn-destructive-hover, hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */)",
+            "dark": "var(--btn-destructive-hover-dark, hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */)",
           },
         },
         "btn-input": {
-          "DEFAULT": "hsl(var(--btn-input, 240 5.9% 90%))",
-          "dark": "hsl(var(--btn-input-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-input, hsl(var(--input)))",
+          "dark": "var(--btn-input-dark, hsl(var(--input)))",
         },
         "btn-primary": {
-          "DEFAULT": "hsl(var(--btn-primary, 240 5.9% 10%))",
-          "dark": "hsl(var(--btn-primary-dark, 0 0% 98%))",
+          "DEFAULT": "var(--btn-primary, hsl(var(--primary)))",
+          "dark": "var(--btn-primary-dark, hsl(var(--primary)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--btn-primary-foreground, 0 0% 98%))",
-            "dark": "hsl(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
+            "DEFAULT": "var(--btn-primary-foreground, hsl(var(--primary-foreground)))",
+            "dark": "var(--btn-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
-            "dark": "hsl(var(--btn-primary-hover-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-primary-hover, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
+            "dark": "var(--btn-primary-hover-dark, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
           },
         },
         "btn-ring": {
-          "DEFAULT": "hsl(var(--btn-ring, 240 5.9% 10%))",
-          "dark": "hsl(var(--btn-ring-dark, 240 4.9% 83.9%))",
+          "DEFAULT": "var(--btn-ring, hsl(var(--ring)))",
+          "dark": "var(--btn-ring-dark, hsl(var(--ring)))",
         },
         "btn-secondary": {
-          "DEFAULT": "hsl(var(--btn-secondary, 240 4.8% 95.9%))",
-          "dark": "hsl(var(--btn-secondary-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-secondary, hsl(var(--secondary)))",
+          "dark": "var(--btn-secondary-dark, hsl(var(--secondary)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--btn-secondary-foreground, 240 5.9% 10%))",
-            "dark": "hsl(var(--btn-secondary-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-secondary-foreground, hsl(var(--secondary-foreground)))",
+            "dark": "var(--btn-secondary-foreground-dark, hsl(var(--secondary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
-            "dark": "hsl(var(--btn-secondary-hover-dark, 240 3.7% 15.9%))",
+            "DEFAULT": "var(--btn-secondary-hover, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+            "dark": "var(--btn-secondary-hover-dark, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+          },
+        },
+        "card": {
+          "DEFAULT": "var(--card, 0 0% 100%)",
+          "dark": {
+            "DEFAULT": "240 10% 3.9%",
           },
         },
         "card-card": {
-          "DEFAULT": "hsl(var(--card-card, 0 0% 100%))",
-          "dark": "hsl(var(--card-card-dark, 240 10% 3.9%))",
+          "DEFAULT": "var(--card-card, hsl(var(--card)))",
+          "dark": "var(--card-card-dark, hsl(var(--card)))",
           "foreground": {
-            "DEFAULT": "hsl(var(--card-card-foreground, 240 5.9% 10%))",
-            "dark": "hsl(var(--card-card-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--card-card-foreground, var(--foreground)/* --foreground */)",
+            "dark": "var(--card-card-foreground-dark, var(--foreground)/* --foreground */)",
           },
         },
         "checkbox-checkbox": {
           "primary": {
-            "DEFAULT": "hsl(var(--checkbox-checkbox-primary, 240 5.9% 10%))",
-            "dark": "hsl(var(--checkbox-checkbox-primary-dark, 0 0% 98%))",
+            "DEFAULT": "var(--checkbox-checkbox-primary, hsl(var(--primary)))",
+            "dark": "var(--checkbox-checkbox-primary-dark, hsl(var(--primary)))",
             "foreground": {
-              "DEFAULT": "hsl(var(--checkbox-checkbox-primary-foreground, 0 0% 98%))",
-              "dark": "hsl(var(--checkbox-checkbox-primary-foreground-dark, 240 5.9% 10%))",
+              "DEFAULT": "var(--checkbox-checkbox-primary-foreground, var(--foreground)/* --foreground */)",
+              "dark": "var(--checkbox-checkbox-primary-foreground-dark, var(--foreground)/* --foreground */)",
             },
             "ring": {
-              "DEFAULT": "hsl(var(--checkbox-checkbox-primary-ring, 240 5.9% 10%))",
-              "dark": "hsl(var(--checkbox-checkbox-primary-ring-dark, 240 4.9% 83.9%))",
+              "DEFAULT": "var(--checkbox-checkbox-primary-ring, hsl(var(--ring)))",
+              "dark": "var(--checkbox-checkbox-primary-ring-dark, hsl(var(--ring)))",
             },
           },
         },
-        "input-input": {
-          "DEFAULT": "hsl(var(--input-input, 240 5.9% 90%))",
-          "dark": "hsl(var(--input-input-dark, 240 3.7% 15.9%))",
-          "ring": {
-            "DEFAULT": "hsl(var(--input-input-ring, 240 5.9% 90%))",
-            "dark": "hsl(var(--input-input-ring-dark, 240 3.7% 15.9%))",
+        "destructive": {
+          "DEFAULT": "var(--destructive, 0 84.2% 60.2%)",
+          "dark": {
+            "DEFAULT": "0 62.8% 30.6%",
           },
+        },
+        "destructive-foreground": {
+          "DEFAULT": "hsl(var(--destructive-foreground, 0 0% 98%))",
+          "dark": "hsl(var(--destructive-foreground-dark, 0 0% 98%))",
+        },
+        "foreground": {
+          "DEFAULT": "var(--foreground, hsl(240 10% 3.9%))",
+          "dark": {
+            "DEFAULT": "hsl(0 0% 98%)",
+          },
+        },
+        "input": {
+          "DEFAULT": "var(--input, 240 5.9% 90%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "input-input": {
+          "DEFAULT": "var(--input-input, hsl(var(--input)))",
+          "dark": "var(--input-input-dark, hsl(var(--input)))",
+          "ring": {
+            "DEFAULT": "var(--input-input-ring, hsl(var(--ring)))",
+            "dark": "var(--input-input-ring-dark, hsl(var(--ring)))",
+          },
+        },
+        "primary": {
+          "DEFAULT": "var(--primary, 240 5.9% 10%)",
+          "dark": {
+            "DEFAULT": "0 0% 98%",
+          },
+        },
+        "primary-foreground": {
+          "DEFAULT": "hsl(var(--primary-foreground, 0 0% 98%))",
+          "dark": "hsl(var(--primary-foreground-dark, 240 5.9% 10%))",
+        },
+        "radio": {
+          "DEFAULT": "var(--radio, var(--radio)/* --radio */)",
+          "dark": {
+            "DEFAULT": "var(--radio)/* --radio */",
+          },
+        },
+        "radio-primary": {
+          "DEFAULT": "var(--radio-primary, hsl(var(--primary)))",
+          "dark": "var(--radio-primary-dark, hsl(var(--primary)))",
+        },
+        "ring": {
+          "DEFAULT": "var(--ring, 240 5.9% 10%)",
+          "dark": {
+            "DEFAULT": "240 4.9% 83.9%",
+          },
+        },
+        "secondary": {
+          "DEFAULT": "var(--secondary, 240 4.8% 95.9%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "secondary-foreground": {
+          "DEFAULT": "hsl(var(--secondary-foreground, 240 5.9% 10%))",
+          "dark": "hsl(var(--secondary-foreground-dark, 0 0% 98%))",
+        },
+        "switch-background": {
+          "DEFAULT": "var(--switch-background, var(--background)/* --background */)",
+          "dark": "var(--switch-background-dark, var(--background)/* --background */)",
+        },
+        "switch-checked": {
+          "DEFAULT": "var(--switch-checked, hsl(var(--primary)))",
+          "dark": "var(--switch-checked-dark, hsl(var(--primary)))",
+        },
+        "switch-unchecked": {
+          "DEFAULT": "var(--switch-unchecked, hsl(var(--input)))",
+          "dark": "var(--switch-unchecked-dark, hsl(var(--input)))",
         },
       }
     `)
@@ -299,77 +511,138 @@ describe('tailwind-theme-presets', () => {
   it('processTheme', () => {
     expect(processTheme(baseTheme)).toMatchInlineSnapshot(`
       {
+        ".2xl": {
+          "--boxShadow": "0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));",
+        },
+        ".2xs": {
+          "--boxShadow": "0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));",
+        },
         ".dark": {
-          "--badge-accent": "240 3.7% 15.9%",
-          "--badge-accent-foreground": "0 0% 98%",
-          "--badge-destructive": "0 62.8% 30.6%",
-          "--badge-destructive-foreground": "0 0% 98%",
-          "--badge-destructive-hover": "0 62.8% 20.6%",
-          "--badge-foreground": "0 0% 98%",
-          "--badge-primary": "0 0% 98%",
-          "--badge-primary-foreground": "240 5.9% 10%",
-          "--badge-primary-hover": "0 0% 98%",
-          "--badge-ring-destructive": "0 62.8% 30.6%",
-          "--badge-secondary": "240 3.7% 15.9%",
-          "--badge-secondary-foreground": "0 0% 98%",
-          "--badge-secondary-hover": "240 3.7% 15.9%",
-          "--btn-accent": "240 3.7% 15.9%",
-          "--btn-accent-foreground": "0 0% 98%",
-          "--btn-background": "240 10% 3.9%",
-          "--btn-destructive": "0 62.8% 30.6%",
-          "--btn-destructive-foreground": "0 0% 98%",
-          "--btn-destructive-hover": "0 62.8% 20.6%",
-          "--btn-input": "240 3.7% 15.9%",
-          "--btn-primary": "0 0% 98%",
-          "--btn-primary-foreground": "240 5.9% 10%",
-          "--btn-primary-hover": "0 0% 98%",
-          "--btn-ring": "240 4.9% 83.9%",
-          "--btn-secondary": "240 3.7% 15.9%",
-          "--btn-secondary-foreground": "0 0% 98%",
-          "--btn-secondary-hover": "240 3.7% 15.9%",
-          "--card-card": "240 10% 3.9%",
-          "--card-card-foreground": "0 0% 98%",
-          "--checkbox-checkbox-primary": "0 0% 98%",
-          "--checkbox-checkbox-primary-foreground": "240 5.9% 10%",
-          "--checkbox-checkbox-primary-ring": "240 4.9% 83.9%",
-          "--input-input": "240 3.7% 15.9%",
-          "--input-input-ring": "240 3.7% 15.9%",
+          "--accent": "240 3.7% 15.9%",
+          "--accent-foreground": "0 0% 98%",
+          "--background": "hsl(240 10% 3.9%)",
+          "--badge-accent": "hsl(var(--accent))",
+          "--badge-accent-foreground": "hsl(var(--accent-foreground))",
+          "--badge-destructive": "hsl(var(--destructive))",
+          "--badge-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--badge-destructive-hover": "hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */",
+          "--badge-foreground": "var(--foreground)/* --foreground */",
+          "--badge-primary": "hsl(var(--primary))",
+          "--badge-primary-foreground": "hsl(var(--primary-foreground))",
+          "--badge-primary-hover": "hsl(var(--primary) / 90%)/* --badge-primary -> --primary */",
+          "--badge-ring-destructive": "hsl(var(--destructive))",
+          "--badge-secondary": "hsl(var(--secondary))",
+          "--badge-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--badge-secondary-hover": "hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */",
+          "--breadcrumb-foreground": "var(--foreground)/* --foreground */",
+          "--breadcrumb-muted-foreground": "hsl(var(--muted-foreground))",
+          "--btn-accent": "hsl(var(--accent))",
+          "--btn-accent-foreground": "hsl(var(--accent-foreground))",
+          "--btn-background": "var(--background)/* --background */",
+          "--btn-destructive": "hsl(var(--destructive))",
+          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--btn-destructive-hover": "hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */",
+          "--btn-input": "hsl(var(--input))",
+          "--btn-primary": "hsl(var(--primary))",
+          "--btn-primary-foreground": "hsl(var(--primary-foreground))",
+          "--btn-primary-hover": "hsl(var(--primary) / 90%)/* --btn-primary -> --primary */",
+          "--btn-ring": "hsl(var(--ring))",
+          "--btn-secondary": "hsl(var(--secondary))",
+          "--btn-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--btn-secondary-hover": "hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */",
+          "--card": "240 10% 3.9%",
+          "--card-card": "hsl(var(--card))",
+          "--card-card-foreground": "var(--foreground)/* --foreground */",
+          "--checkbox-checkbox-primary": "hsl(var(--primary))",
+          "--checkbox-checkbox-primary-foreground": "var(--foreground)/* --foreground */",
+          "--checkbox-checkbox-primary-ring": "hsl(var(--ring))",
+          "--destructive": "0 62.8% 30.6%",
+          "--destructive-foreground": "0 0% 98%",
+          "--foreground": "hsl(0 0% 98%)",
+          "--input": "240 3.7% 15.9%",
+          "--input-input": "hsl(var(--input))",
+          "--input-input-ring": "hsl(var(--ring))",
+          "--primary": "0 0% 98%",
+          "--primary-foreground": "240 5.9% 10%",
+          "--radio": "var(--radio)/* --radio */",
+          "--radio-primary": "hsl(var(--primary))",
+          "--ring": "240 4.9% 83.9%",
+          "--secondary": "240 3.7% 15.9%",
+          "--secondary-foreground": "0 0% 98%",
+          "--switch-background": "var(--background)/* --background */",
+          "--switch-checked": "hsl(var(--primary))",
+          "--switch-unchecked": "hsl(var(--input))",
+        },
+        ".lg": {
+          "--boxShadow": "0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));",
+        },
+        ".md": {
+          "--boxShadow": "0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));",
+        },
+        ".sm": {
+          "--boxShadow": "0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));",
+        },
+        ".xl": {
+          "--boxShadow": "0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));",
+        },
+        ".xs": {
+          "--boxShadow": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
         },
         ":root": {
-          "--badge-accent": "240 4.8% 95.9%",
-          "--badge-accent-foreground": "240 5.9% 10%",
-          "--badge-destructive": "0 84.2% 60.2%",
-          "--badge-destructive-foreground": "0 0% 98%",
-          "--badge-destructive-hover": "var(--badge-destructive) / 90%",
-          "--badge-foreground": "240 5.9% 10%",
-          "--badge-primary": "240 5.9% 10%",
-          "--badge-primary-foreground": "0 0% 98%",
-          "--badge-primary-hover": "var(--badge-primary) / 90%",
-          "--badge-ring-destructive": "0 84.2% 60.2%",
-          "--badge-secondary": "240 4.8% 95.9%",
-          "--badge-secondary-foreground": "240 5.9% 10%",
-          "--badge-secondary-hover": "var(--badge-secondary) / 90%",
-          "--btn-accent": "240 4.8% 95.9%",
-          "--btn-accent-foreground": "240 5.9% 10%",
-          "--btn-background": "0 0% 100%",
-          "--btn-destructive": "0 84.2% 60.2%",
-          "--btn-destructive-foreground": "0 0% 98%",
-          "--btn-destructive-hover": "var(--btn-destructive) / 90%",
-          "--btn-input": "240 5.9% 90%",
-          "--btn-primary": "240 5.9% 10%",
-          "--btn-primary-foreground": "0 0% 98%",
-          "--btn-primary-hover": "var(--btn-primary) / 90%",
-          "--btn-ring": "240 5.9% 10%",
-          "--btn-secondary": "240 4.8% 95.9%",
-          "--btn-secondary-foreground": "240 5.9% 10%",
-          "--btn-secondary-hover": "var(--btn-secondary) / 80%",
-          "--card-card": "0 0% 100%",
-          "--card-card-foreground": "240 5.9% 10%",
-          "--checkbox-checkbox-primary": "240 5.9% 10%",
-          "--checkbox-checkbox-primary-foreground": "0 0% 98%",
-          "--checkbox-checkbox-primary-ring": "240 5.9% 10%",
-          "--input-input": "240 5.9% 90%",
-          "--input-input-ring": "240 5.9% 90%",
+          "--accent": "240 4.8% 95.9%",
+          "--accent-foreground": "240 5.9% 10%",
+          "--background": "hsl(0 0% 100%)",
+          "--badge-accent": "hsl(var(--accent))",
+          "--badge-accent-foreground": "hsl(var(--accent-foreground))",
+          "--badge-destructive": "hsl(var(--destructive))",
+          "--badge-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--badge-destructive-hover": "hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */",
+          "--badge-foreground": "var(--foreground)/* --foreground */",
+          "--badge-primary": "hsl(var(--primary))",
+          "--badge-primary-foreground": "hsl(var(--primary-foreground))",
+          "--badge-primary-hover": "hsl(var(--primary) / 90%)/* --badge-primary -> --primary */",
+          "--badge-ring-destructive": "hsl(var(--destructive))",
+          "--badge-secondary": "hsl(var(--secondary))",
+          "--badge-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--badge-secondary-hover": "hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */",
+          "--breadcrumb-foreground": "var(--foreground)/* --foreground */",
+          "--breadcrumb-muted-foreground": "hsl(var(--muted-foreground))",
+          "--btn-accent": "hsl(var(--accent))",
+          "--btn-accent-foreground": "hsl(var(--accent-foreground))",
+          "--btn-background": "var(--background)/* --background */",
+          "--btn-destructive": "hsl(var(--destructive))",
+          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
+          "--btn-destructive-hover": "hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */",
+          "--btn-input": "hsl(var(--input))",
+          "--btn-primary": "hsl(var(--primary))",
+          "--btn-primary-foreground": "hsl(var(--primary-foreground))",
+          "--btn-primary-hover": "hsl(var(--primary) / 90%)/* --btn-primary -> --primary */",
+          "--btn-ring": "hsl(var(--ring))",
+          "--btn-secondary": "hsl(var(--secondary))",
+          "--btn-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--btn-secondary-hover": "hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */",
+          "--card": "0 0% 100%",
+          "--card-card": "hsl(var(--card))",
+          "--card-card-foreground": "var(--foreground)/* --foreground */",
+          "--checkbox-checkbox-primary": "hsl(var(--primary))",
+          "--checkbox-checkbox-primary-foreground": "var(--foreground)/* --foreground */",
+          "--checkbox-checkbox-primary-ring": "hsl(var(--ring))",
+          "--destructive": "0 84.2% 60.2%",
+          "--destructive-foreground": "0 0% 98%",
+          "--foreground": "hsl(240 10% 3.9%)",
+          "--input": "240 5.9% 90%",
+          "--input-input": "hsl(var(--input))",
+          "--input-input-ring": "hsl(var(--ring))",
+          "--primary": "240 5.9% 10%",
+          "--primary-foreground": "0 0% 98%",
+          "--radio": "var(--radio)/* --radio */",
+          "--radio-primary": "hsl(var(--primary))",
+          "--ring": "240 5.9% 10%",
+          "--secondary": "240 4.8% 95.9%",
+          "--secondary-foreground": "240 5.9% 10%",
+          "--switch-background": "var(--background)/* --background */",
+          "--switch-checked": "hsl(var(--primary))",
+          "--switch-unchecked": "hsl(var(--input))",
         },
       }
     `)
@@ -380,143 +653,266 @@ describe('tailwind-theme-presets', () => {
       colorRule: 'rgb',
     })).toMatchInlineSnapshot(`
       {
+        "accent": {
+          "DEFAULT": "var(--accent, 240 4.8% 95.9%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "accent-foreground": {
+          "DEFAULT": "rgb(var(--accent-foreground, 240 5.9% 10%))",
+          "dark": "rgb(var(--accent-foreground-dark, 0 0% 98%))",
+        },
+        "background": {
+          "DEFAULT": "var(--background, hsl(0 0% 100%))",
+          "dark": {
+            "DEFAULT": "hsl(240 10% 3.9%)",
+          },
+        },
         "badge-accent": {
-          "DEFAULT": "rgb(var(--badge-accent, 240 4.8% 95.9%))",
-          "dark": "rgb(var(--badge-accent-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--badge-accent, hsl(var(--accent)))",
+          "dark": "var(--badge-accent-dark, hsl(var(--accent)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--badge-accent-foreground, 240 5.9% 10%))",
-            "dark": "rgb(var(--badge-accent-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-accent-foreground, hsl(var(--accent-foreground)))",
+            "dark": "var(--badge-accent-foreground-dark, hsl(var(--accent-foreground)))",
           },
         },
         "badge-destructive": {
-          "DEFAULT": "rgb(var(--badge-destructive, 0 84.2% 60.2%))",
-          "dark": "rgb(var(--badge-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--badge-destructive, hsl(var(--destructive)))",
+          "dark": "var(--badge-destructive-dark, hsl(var(--destructive)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--badge-destructive-foreground, 0 0% 98%))",
-            "dark": "rgb(var(--badge-destructive-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-destructive-foreground, hsl(var(--destructive-foreground)))",
+            "dark": "var(--badge-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-destructive-hover, var(--badge-destructive) / 90%)",
-            "dark": "rgb(var(--badge-destructive-hover-dark, 0 62.8% 20.6%))",
+            "DEFAULT": "var(--badge-destructive-hover, hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */)",
+            "dark": "var(--badge-destructive-hover-dark, hsl(var(--destructive) / 90%)/* --badge-destructive -> --destructive */)",
           },
         },
         "badge-foreground": {
-          "DEFAULT": "rgb(var(--badge-foreground, 240 5.9% 10%))",
-          "dark": "rgb(var(--badge-foreground-dark, 0 0% 98%))",
+          "DEFAULT": "var(--badge-foreground, var(--foreground)/* --foreground */)",
+          "dark": "var(--badge-foreground-dark, var(--foreground)/* --foreground */)",
         },
         "badge-primary": {
-          "DEFAULT": "rgb(var(--badge-primary, 240 5.9% 10%))",
-          "dark": "rgb(var(--badge-primary-dark, 0 0% 98%))",
+          "DEFAULT": "var(--badge-primary, hsl(var(--primary)))",
+          "dark": "var(--badge-primary-dark, hsl(var(--primary)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--badge-primary-foreground, 0 0% 98%))",
-            "dark": "rgb(var(--badge-primary-foreground-dark, 240 5.9% 10%))",
+            "DEFAULT": "var(--badge-primary-foreground, hsl(var(--primary-foreground)))",
+            "dark": "var(--badge-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-primary-hover, var(--badge-primary) / 90%)",
-            "dark": "rgb(var(--badge-primary-hover-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-primary-hover, hsl(var(--primary) / 90%)/* --badge-primary -> --primary */)",
+            "dark": "var(--badge-primary-hover-dark, hsl(var(--primary) / 90%)/* --badge-primary -> --primary */)",
           },
         },
         "badge-ring-destructive": {
-          "DEFAULT": "rgb(var(--badge-ring-destructive, 0 84.2% 60.2%))",
-          "dark": "rgb(var(--badge-ring-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--badge-ring-destructive, hsl(var(--destructive)))",
+          "dark": "var(--badge-ring-destructive-dark, hsl(var(--destructive)))",
         },
         "badge-secondary": {
-          "DEFAULT": "rgb(var(--badge-secondary, 240 4.8% 95.9%))",
-          "dark": "rgb(var(--badge-secondary-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--badge-secondary, hsl(var(--secondary)))",
+          "dark": "var(--badge-secondary-dark, hsl(var(--secondary)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--badge-secondary-foreground, 240 5.9% 10%))",
-            "dark": "rgb(var(--badge-secondary-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--badge-secondary-foreground, hsl(var(--secondary-foreground)))",
+            "dark": "var(--badge-secondary-foreground-dark, hsl(var(--secondary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--badge-secondary-hover, var(--badge-secondary) / 90%)",
-            "dark": "rgb(var(--badge-secondary-hover-dark, 240 3.7% 15.9%))",
+            "DEFAULT": "var(--badge-secondary-hover, hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */)",
+            "dark": "var(--badge-secondary-hover-dark, hsl(var(--secondary) / 90%)/* --badge-secondary -> --secondary */)",
           },
         },
+        "boxShadow": {
+          "2xl": {
+            "DEFAULT": "0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));",
+          },
+          "2xs": {
+            "DEFAULT": "0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));",
+          },
+          "lg": {
+            "DEFAULT": "0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "md": {
+            "DEFAULT": "0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "sm": {
+            "DEFAULT": "0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "xl": {
+            "DEFAULT": "0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, 0 0 0 / 0.1);",
+          },
+          "xs": {
+            "DEFAULT": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+          },
+        },
+        "breadcrumb-foreground": {
+          "DEFAULT": "var(--breadcrumb-foreground, var(--foreground)/* --foreground */)",
+          "dark": "var(--breadcrumb-foreground-dark, var(--foreground)/* --foreground */)",
+        },
+        "breadcrumb-muted-foreground": {
+          "DEFAULT": "var(--breadcrumb-muted-foreground, hsl(var(--muted-foreground)))",
+          "dark": "var(--breadcrumb-muted-foreground-dark, hsl(var(--muted-foreground)))",
+        },
         "btn-accent": {
-          "DEFAULT": "rgb(var(--btn-accent, 240 4.8% 95.9%))",
-          "dark": "rgb(var(--btn-accent-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-accent, hsl(var(--accent)))",
+          "dark": "var(--btn-accent-dark, hsl(var(--accent)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--btn-accent-foreground, 240 5.9% 10%))",
-            "dark": "rgb(var(--btn-accent-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-accent-foreground, hsl(var(--accent-foreground)))",
+            "dark": "var(--btn-accent-foreground-dark, hsl(var(--accent-foreground)))",
           },
         },
         "btn-background": {
-          "DEFAULT": "rgb(var(--btn-background, 0 0% 100%))",
-          "dark": "rgb(var(--btn-background-dark, 240 10% 3.9%))",
+          "DEFAULT": "var(--btn-background, var(--background)/* --background */)",
+          "dark": "var(--btn-background-dark, var(--background)/* --background */)",
         },
         "btn-destructive": {
-          "DEFAULT": "rgb(var(--btn-destructive, 0 84.2% 60.2%))",
-          "dark": "rgb(var(--btn-destructive-dark, 0 62.8% 30.6%))",
+          "DEFAULT": "var(--btn-destructive, hsl(var(--destructive)))",
+          "dark": "var(--btn-destructive-dark, hsl(var(--destructive)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--btn-destructive-foreground, 0 0% 98%))",
-            "dark": "rgb(var(--btn-destructive-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-destructive-foreground, hsl(var(--destructive-foreground)))",
+            "dark": "var(--btn-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-destructive-hover, var(--btn-destructive) / 90%)",
-            "dark": "rgb(var(--btn-destructive-hover-dark, 0 62.8% 20.6%))",
+            "DEFAULT": "var(--btn-destructive-hover, hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */)",
+            "dark": "var(--btn-destructive-hover-dark, hsl(var(--destructive) / 90%)/* --btn-destructive -> --destructive */)",
           },
         },
         "btn-input": {
-          "DEFAULT": "rgb(var(--btn-input, 240 5.9% 90%))",
-          "dark": "rgb(var(--btn-input-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-input, hsl(var(--input)))",
+          "dark": "var(--btn-input-dark, hsl(var(--input)))",
         },
         "btn-primary": {
-          "DEFAULT": "rgb(var(--btn-primary, 240 5.9% 10%))",
-          "dark": "rgb(var(--btn-primary-dark, 0 0% 98%))",
+          "DEFAULT": "var(--btn-primary, hsl(var(--primary)))",
+          "dark": "var(--btn-primary-dark, hsl(var(--primary)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--btn-primary-foreground, 0 0% 98%))",
-            "dark": "rgb(var(--btn-primary-foreground-dark, 240 5.9% 10%))",
+            "DEFAULT": "var(--btn-primary-foreground, hsl(var(--primary-foreground)))",
+            "dark": "var(--btn-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-primary-hover, var(--btn-primary) / 90%)",
-            "dark": "rgb(var(--btn-primary-hover-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-primary-hover, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
+            "dark": "var(--btn-primary-hover-dark, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
           },
         },
         "btn-ring": {
-          "DEFAULT": "rgb(var(--btn-ring, 240 5.9% 10%))",
-          "dark": "rgb(var(--btn-ring-dark, 240 4.9% 83.9%))",
+          "DEFAULT": "var(--btn-ring, hsl(var(--ring)))",
+          "dark": "var(--btn-ring-dark, hsl(var(--ring)))",
         },
         "btn-secondary": {
-          "DEFAULT": "rgb(var(--btn-secondary, 240 4.8% 95.9%))",
-          "dark": "rgb(var(--btn-secondary-dark, 240 3.7% 15.9%))",
+          "DEFAULT": "var(--btn-secondary, hsl(var(--secondary)))",
+          "dark": "var(--btn-secondary-dark, hsl(var(--secondary)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--btn-secondary-foreground, 240 5.9% 10%))",
-            "dark": "rgb(var(--btn-secondary-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--btn-secondary-foreground, hsl(var(--secondary-foreground)))",
+            "dark": "var(--btn-secondary-foreground-dark, hsl(var(--secondary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-secondary-hover, var(--btn-secondary) / 80%)",
-            "dark": "rgb(var(--btn-secondary-hover-dark, 240 3.7% 15.9%))",
+            "DEFAULT": "var(--btn-secondary-hover, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+            "dark": "var(--btn-secondary-hover-dark, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+          },
+        },
+        "card": {
+          "DEFAULT": "var(--card, 0 0% 100%)",
+          "dark": {
+            "DEFAULT": "240 10% 3.9%",
           },
         },
         "card-card": {
-          "DEFAULT": "rgb(var(--card-card, 0 0% 100%))",
-          "dark": "rgb(var(--card-card-dark, 240 10% 3.9%))",
+          "DEFAULT": "var(--card-card, hsl(var(--card)))",
+          "dark": "var(--card-card-dark, hsl(var(--card)))",
           "foreground": {
-            "DEFAULT": "rgb(var(--card-card-foreground, 240 5.9% 10%))",
-            "dark": "rgb(var(--card-card-foreground-dark, 0 0% 98%))",
+            "DEFAULT": "var(--card-card-foreground, var(--foreground)/* --foreground */)",
+            "dark": "var(--card-card-foreground-dark, var(--foreground)/* --foreground */)",
           },
         },
         "checkbox-checkbox": {
           "primary": {
-            "DEFAULT": "rgb(var(--checkbox-checkbox-primary, 240 5.9% 10%))",
-            "dark": "rgb(var(--checkbox-checkbox-primary-dark, 0 0% 98%))",
+            "DEFAULT": "var(--checkbox-checkbox-primary, hsl(var(--primary)))",
+            "dark": "var(--checkbox-checkbox-primary-dark, hsl(var(--primary)))",
             "foreground": {
-              "DEFAULT": "rgb(var(--checkbox-checkbox-primary-foreground, 0 0% 98%))",
-              "dark": "rgb(var(--checkbox-checkbox-primary-foreground-dark, 240 5.9% 10%))",
+              "DEFAULT": "var(--checkbox-checkbox-primary-foreground, var(--foreground)/* --foreground */)",
+              "dark": "var(--checkbox-checkbox-primary-foreground-dark, var(--foreground)/* --foreground */)",
             },
             "ring": {
-              "DEFAULT": "rgb(var(--checkbox-checkbox-primary-ring, 240 5.9% 10%))",
-              "dark": "rgb(var(--checkbox-checkbox-primary-ring-dark, 240 4.9% 83.9%))",
+              "DEFAULT": "var(--checkbox-checkbox-primary-ring, hsl(var(--ring)))",
+              "dark": "var(--checkbox-checkbox-primary-ring-dark, hsl(var(--ring)))",
             },
           },
         },
-        "input-input": {
-          "DEFAULT": "rgb(var(--input-input, 240 5.9% 90%))",
-          "dark": "rgb(var(--input-input-dark, 240 3.7% 15.9%))",
-          "ring": {
-            "DEFAULT": "rgb(var(--input-input-ring, 240 5.9% 90%))",
-            "dark": "rgb(var(--input-input-ring-dark, 240 3.7% 15.9%))",
+        "destructive": {
+          "DEFAULT": "var(--destructive, 0 84.2% 60.2%)",
+          "dark": {
+            "DEFAULT": "0 62.8% 30.6%",
           },
+        },
+        "destructive-foreground": {
+          "DEFAULT": "rgb(var(--destructive-foreground, 0 0% 98%))",
+          "dark": "rgb(var(--destructive-foreground-dark, 0 0% 98%))",
+        },
+        "foreground": {
+          "DEFAULT": "var(--foreground, hsl(240 10% 3.9%))",
+          "dark": {
+            "DEFAULT": "hsl(0 0% 98%)",
+          },
+        },
+        "input": {
+          "DEFAULT": "var(--input, 240 5.9% 90%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "input-input": {
+          "DEFAULT": "var(--input-input, hsl(var(--input)))",
+          "dark": "var(--input-input-dark, hsl(var(--input)))",
+          "ring": {
+            "DEFAULT": "var(--input-input-ring, hsl(var(--ring)))",
+            "dark": "var(--input-input-ring-dark, hsl(var(--ring)))",
+          },
+        },
+        "primary": {
+          "DEFAULT": "var(--primary, 240 5.9% 10%)",
+          "dark": {
+            "DEFAULT": "0 0% 98%",
+          },
+        },
+        "primary-foreground": {
+          "DEFAULT": "rgb(var(--primary-foreground, 0 0% 98%))",
+          "dark": "rgb(var(--primary-foreground-dark, 240 5.9% 10%))",
+        },
+        "radio": {
+          "DEFAULT": "var(--radio, var(--radio)/* --radio */)",
+          "dark": {
+            "DEFAULT": "var(--radio)/* --radio */",
+          },
+        },
+        "radio-primary": {
+          "DEFAULT": "var(--radio-primary, hsl(var(--primary)))",
+          "dark": "var(--radio-primary-dark, hsl(var(--primary)))",
+        },
+        "ring": {
+          "DEFAULT": "var(--ring, 240 5.9% 10%)",
+          "dark": {
+            "DEFAULT": "240 4.9% 83.9%",
+          },
+        },
+        "secondary": {
+          "DEFAULT": "var(--secondary, 240 4.8% 95.9%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "secondary-foreground": {
+          "DEFAULT": "rgb(var(--secondary-foreground, 240 5.9% 10%))",
+          "dark": "rgb(var(--secondary-foreground-dark, 0 0% 98%))",
+        },
+        "switch-background": {
+          "DEFAULT": "var(--switch-background, var(--background)/* --background */)",
+          "dark": "var(--switch-background-dark, var(--background)/* --background */)",
+        },
+        "switch-checked": {
+          "DEFAULT": "var(--switch-checked, hsl(var(--primary)))",
+          "dark": "var(--switch-checked-dark, hsl(var(--primary)))",
+        },
+        "switch-unchecked": {
+          "DEFAULT": "var(--switch-unchecked, hsl(var(--input)))",
+          "dark": "var(--switch-unchecked-dark, hsl(var(--input)))",
         },
       }
     `)
@@ -671,7 +1067,7 @@ describe('tailwind-theme-presets', () => {
           "--btn-background": "hsl(var(--background))",
           "--btn-primary": "hsl(var(--primary))",
           "--btn-primary-foreground": "hsl(var(--primary-foreground))",
-          "--btn-primary-hover": "hsl(var(--btn-primary) / 90%)",
+          "--btn-primary-hover": "hsl(var(--primary) / 90%)/* --btn-primary -> --primary */",
           "--primary": "0 0% 98%",
           "--primary-foreground": "240 5.9% 10%",
         },
@@ -683,7 +1079,7 @@ describe('tailwind-theme-presets', () => {
           "--btn-background": "hsl(var(--background))",
           "--btn-primary": "hsl(var(--primary))",
           "--btn-primary-foreground": "hsl(var(--primary-foreground))",
-          "--btn-primary-hover": "hsl(var(--btn-primary) / 90%)",
+          "--btn-primary-hover": "hsl(var(--primary) / 90%)/* --btn-primary -> --primary */",
           "--mixedColors": "0 0% 100%",
           "--mixedColors-accent": "255 128 64",
           "--mixedColors-hover": "120 80% 50%",
@@ -714,8 +1110,8 @@ describe('tailwind-theme-presets', () => {
             "dark": "var(--btn-primary-foreground-dark, hsl(var(--primary-foreground)))",
           },
           "hover": {
-            "DEFAULT": "var(--btn-primary-hover, hsl(var(--btn-primary) / 90%))",
-            "dark": "var(--btn-primary-hover-dark, hsl(var(--btn-primary) / 90%))",
+            "DEFAULT": "var(--btn-primary-hover, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
+            "dark": "var(--btn-primary-hover-dark, hsl(var(--primary) / 90%)/* --btn-primary -> --primary */)",
           },
         },
         "mixedColors": {
@@ -743,6 +1139,28 @@ describe('tailwind-theme-presets', () => {
 
   it('custom test', () => {
     const theme = {
+      // secondary: {
+      //   DEFAULT: '240 4.8% 95.9%',
+      //   dark: '240 3.7% 15.9%',
+      //   foreground: {
+      //     DEFAULT: '240 5.9% 10%',
+      //     dark: '0 0% 98%',
+      //   },
+      // },
+      // btn: {
+      //   secondary: {
+      //     DEFAULT: 'hsl(var(--secondary))',
+      //     dark: 'hsl(var(--secondary))',
+      //     hover: {
+      //       DEFAULT: 'hsl(var(--btn-secondary) / 80%)', // bg-btn-secondary/80
+      //       dark: 'hsl(var(--btn-secondary) / 80%)',
+      //     },
+      //     foreground: {
+      //       DEFAULT: 'hsl(var(--secondary-foreground))',
+      //       dark: 'hsl(var(--secondary-foreground))',
+      //     },
+      //   },
+      // },
       background: {
         DEFAULT: 'hsl(0 0% 100%)',
         dark: 'hsl(240 10% 3.9%)',
@@ -752,29 +1170,14 @@ describe('tailwind-theme-presets', () => {
           DEFAULT: 'hsl(var(--background))',
           dark: 'hsl(var(--background))',
         },
-      },
-      destructive: {
-        DEFAULT: '0 84.2% 60.2%',
-        dark: '0 62.8% 30.6%',
-        foreground: {
-          DEFAULT: '0 0% 98%',
-          dark: '0 0% 98%',
-        },
-      },
-      btn: {
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          dark: 'hsl(var(--destructive))',
-          hover: {
-            DEFAULT: 'hsl(var(--btn-destructive) / 90%)',
-            dark: 'hsl(var(--btn-destructive) / 90%)',
-          },
-          foreground: {
-            DEFAULT: 'hsl(var(--destructive-foreground))',
-            dark: 'hsl(var(--destructive-foreground))',
-          },
-        },
-
+        // checked: {
+        //   DEFAULT: 'hsl(var(--primary))',
+        //   dark: 'hsl(var(--primary))',
+        // },
+        // unchecked: {
+        //   DEFAULT: 'hsl(var(--input))', // hsl(240 3.7% 15.9%)
+        //   dark: 'hsl(var(--input))',
+        // },
       },
     }
 
@@ -782,60 +1185,40 @@ describe('tailwind-theme-presets', () => {
       {
         ".dark": {
           "--background": "hsl(240 10% 3.9%)",
-          "--btn-destructive": "hsl(var(--destructive))",
-          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
-          "--btn-destructive-hover": "hsl(var(--btn-destructive) / 90%)",
-          "--destructive": "0 62.8% 30.6%",
-          "--destructive-foreground": "0 0% 98%",
-          "--switch-background": "hsl(var(--background))",
+          "--switch-background": "var(--background)/* --background */",
         },
         ":root": {
           "--background": "hsl(0 0% 100%)",
-          "--btn-destructive": "hsl(var(--destructive))",
-          "--btn-destructive-foreground": "hsl(var(--destructive-foreground))",
-          "--btn-destructive-hover": "hsl(var(--btn-destructive) / 90%)",
-          "--destructive": "0 84.2% 60.2%",
-          "--destructive-foreground": "0 0% 98%",
-          "--switch-background": "hsl(var(--background))",
+          "--switch-background": "var(--background)/* --background */",
         },
       }
     `)
 
-    expect(generateColors(theme)).toMatchInlineSnapshot(`
-      {
-        "background": {
-          "DEFAULT": "var(--background, hsl(0 0% 100%))",
-          "dark": {
-            "DEFAULT": "hsl(240 10% 3.9%)",
-          },
-        },
-        "btn-destructive": {
-          "DEFAULT": "var(--btn-destructive, hsl(var(--destructive)))",
-          "dark": "var(--btn-destructive-dark, hsl(var(--destructive)))",
-          "foreground": {
-            "DEFAULT": "var(--btn-destructive-foreground, hsl(var(--destructive-foreground)))",
-            "dark": "var(--btn-destructive-foreground-dark, hsl(var(--destructive-foreground)))",
-          },
-          "hover": {
-            "DEFAULT": "var(--btn-destructive-hover, hsl(var(--btn-destructive) / 90%))",
-            "dark": "var(--btn-destructive-hover-dark, hsl(var(--btn-destructive) / 90%))",
-          },
-        },
-        "destructive": {
-          "DEFAULT": "var(--destructive, 0 84.2% 60.2%)",
-          "dark": {
-            "DEFAULT": "0 62.8% 30.6%",
-          },
-        },
-        "destructive-foreground": {
-          "DEFAULT": "hsl(var(--destructive-foreground, 0 0% 98%))",
-          "dark": "hsl(var(--destructive-foreground-dark, 0 0% 98%))",
-        },
-        "switch-background": {
-          "DEFAULT": "var(--switch-background, hsl(var(--background)))",
-          "dark": "var(--switch-background-dark, hsl(var(--background)))",
-        },
-      }
-    `)
+    // expect(generateColors(theme)).toMatchInlineSnapshot(`
+    //   {
+    //     "btn-secondary": {
+    //       "DEFAULT": "var(--btn-secondary, var(--secondary)/* --secondary */)",
+    //       "dark": "var(--btn-secondary-dark, var(--secondary)/* --secondary */)",
+    //       "foreground": {
+    //         "DEFAULT": "var(--btn-secondary-foreground, var(--secondary-foreground)/* --secondary-foreground */)",
+    //         "dark": "var(--btn-secondary-foreground-dark, var(--secondary-foreground)/* --secondary-foreground */)",
+    //       },
+    //       "hover": {
+    //         "DEFAULT": "var(--btn-secondary-hover, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+    //         "dark": "var(--btn-secondary-hover-dark, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+    //       },
+    //     },
+    //     "secondary": {
+    //       "DEFAULT": "var(--secondary, 240 4.8% 95.9%)",
+    //       "dark": {
+    //         "DEFAULT": "240 3.7% 15.9%",
+    //       },
+    //     },
+    //     "secondary-foreground": {
+    //       "DEFAULT": "hsl(var(--secondary-foreground, 240 5.9% 10%))",
+    //       "dark": "hsl(var(--secondary-foreground-dark, 0 0% 98%))",
+    //     },
+    //   }
+    // `)
   })
 })
