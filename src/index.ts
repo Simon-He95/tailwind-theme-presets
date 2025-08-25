@@ -225,16 +225,20 @@ export function processTheme(theme: Theme) {
             if (typeof cssVarValue === 'string') {
               processed[`.${cssVarKey}`] = processed[`.${cssVarKey}`] || {}
               // 如果 value 是 hsl 或 rgb 格式 (var(--)) 的形式就要使用 resolvedValue 向下递归去找是否存在 hsl 或 rgb 嵌套的场景去处理
-              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue))
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue)) {
                 processed[`.${cssVarKey}`][`--${key}`] =
                   resolvedValue(cssVarValue)
-              else processed[`.${cssVarKey}`][`--${key}`] = cssVarValue
+              } else {
+                processed[`.${cssVarKey}`][`--${key}`] = cssVarValue
+              }
             } else if (Array.isArray(cssVarValue)) {
-              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue[0]))
+              if (/(?:hsl|rgb)\(var\(/.test(cssVarValue[0])) {
                 processed[':root'][processCssVarKey] = resolvedValue(
                   cssVarValue[0],
                 )
-              else processed[':root'][processCssVarKey] = cssVarValue[0]
+              } else {
+                processed[':root'][processCssVarKey] = cssVarValue[0]
+              }
             }
           }
         }
