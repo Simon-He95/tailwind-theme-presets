@@ -61,10 +61,10 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.19.0",
-    "@sxzz/prettier-config": "^2.2.3",
-    "@types/node": "^18.19.121",
+    "@sxzz/prettier-config": "^2.2.4",
+    "@types/node": "^18.19.123",
     "bumpp": "^8.2.1",
-    "eslint": "^9.32.0",
+    "eslint": "^9.34.0",
     "lint-staged": "^13.3.0",
     "picocolors": "^1.1.1",
     "prettier": "^3.6.2",

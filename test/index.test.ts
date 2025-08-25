@@ -4,12 +4,12 @@ import { generateColors, processTheme } from '../src'
 describe('tailwind-theme-presets', () => {
   const baseTheme = {
     boxShadow: {
-      'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      xs: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
       '2xs': '0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));',
-      'sm': '0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
-      'md': '0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
-      'lg': '0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
-      'xl': '0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      sm: '0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      md: '0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      lg: '0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
+      xl: '0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));',
       '2xl': '0 25px 50px -12px var(--tw-shadow-color, rgb(0 0 0 / 0.25));',
     },
     background: {
@@ -127,7 +127,7 @@ describe('tailwind-theme-presets', () => {
       },
     },
     badge: {
-      'accent': {
+      accent: {
         DEFAULT: 'hsl(var(--accent))',
         dark: 'hsl(var(--accent))',
         foreground: {
@@ -135,11 +135,11 @@ describe('tailwind-theme-presets', () => {
           dark: 'hsl(var(--accent-foreground))',
         },
       },
-      'foreground': {
+      foreground: {
         DEFAULT: 'hsl(var(--foreground))',
         dark: 'hsl(var(--foreground))',
       },
-      'primary': {
+      primary: {
         DEFAULT: 'hsl(var(--primary))',
         dark: 'hsl(var(--primary))',
         hover: {
@@ -151,7 +151,7 @@ describe('tailwind-theme-presets', () => {
           dark: 'hsl(var(--primary-foreground))',
         },
       },
-      'secondary': {
+      secondary: {
         DEFAULT: 'hsl(var(--secondary))',
         dark: 'hsl(var(--secondary))',
         hover: {
@@ -163,7 +163,7 @@ describe('tailwind-theme-presets', () => {
           dark: 'hsl(var(--secondary-foreground))',
         },
       },
-      'destructive': {
+      destructive: {
         DEFAULT: 'hsl(var(--destructive))',
         dark: 'hsl(var(--destructive))',
         hover: {
@@ -209,7 +209,7 @@ describe('tailwind-theme-presets', () => {
       },
     },
     breadcrumb: {
-      'foreground': {
+      foreground: {
         DEFAULT: 'hsl(var(--foreground))',
         dark: 'hsl(var(--foreground))',
       },
@@ -649,9 +649,11 @@ describe('tailwind-theme-presets', () => {
   })
 
   it('generateColors with rgb', () => {
-    expect(generateColors(baseTheme, {
-      colorRule: 'rgb',
-    })).toMatchInlineSnapshot(`
+    expect(
+      generateColors(baseTheme, {
+        colorRule: 'rgb',
+      }),
+    ).toMatchInlineSnapshot(`
       {
         "accent": {
           "DEFAULT": "var(--accent, 240 4.8% 95.9%)",
@@ -944,9 +946,12 @@ describe('tailwind-theme-presets', () => {
 
         // 4. 使用自定义函数处理
         customColor: {
-          DEFAULT: ['240 50 60', (prefixKey: string, value: string) => {
-            return `oklch(var(${prefixKey}, ${value}))`
-          }] as [string, (prefixKey: string, value: string) => string],
+          DEFAULT: [
+            '240 50 60',
+            (prefixKey: string, value: string) => {
+              return `oklch(var(${prefixKey}, ${value}))`
+            },
+          ] as [string, (prefixKey: string, value: string) => string],
         },
 
         // 5. 混合使用不同格式
@@ -959,9 +964,12 @@ describe('tailwind-theme-presets', () => {
             DEFAULT: ['120 80% 50%'] as [string], // 原始值
           },
           hover: {
-            DEFAULT: ['120 80% 50%', (prefixKey: string, value: string) => {
-              return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
-            }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+            DEFAULT: [
+              '120 80% 50%',
+              (prefixKey: string, value: string) => {
+                return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
+              },
+            ] as [string, (prefixKey: string, value: string) => string], // 自定义函数
           },
         },
 
@@ -976,26 +984,48 @@ describe('tailwind-theme-presets', () => {
     const result = generateColors(advancedTheme, { colorRule: 'hsl' })
 
     // 验证 RGB 强制格式
-    expect(result['test-rgbColor'].DEFAULT).toBe('rgb(var(--test-rgbColor, 255 0 0))')
+    expect(result['test-rgbColor'].DEFAULT).toBe(
+      'rgb(var(--test-rgbColor, 255 0 0))',
+    )
 
     // 验证 HSL 强制格式
-    expect(result['test-hslColor'].DEFAULT).toBe('hsl(var(--test-hslColor, 240 50% 60%))')
+    expect(result['test-hslColor'].DEFAULT).toBe(
+      'hsl(var(--test-hslColor, 240 50% 60%))',
+    )
 
     // 验证 undefined（原始值不包裹）
-    expect(result['test-rawColor'].DEFAULT).toBe('var(--test-rawColor, 240 50% 60%)')
+    expect(result['test-rawColor'].DEFAULT).toBe(
+      'var(--test-rawColor, 240 50% 60%)',
+    )
 
     // 验证单元素数组（默认为 undefined）
-    expect(result['test-singleArrayColor'].DEFAULT).toBe('var(--test-singleArrayColor, 180 30% 70%)')
+    expect(result['test-singleArrayColor'].DEFAULT).toBe(
+      'var(--test-singleArrayColor, 180 30% 70%)',
+    )
 
     // 验证自定义函数
-    expect(result['test-customColor'].DEFAULT).toBe('oklch(var(--test-customColor, 240 50 60))')
+    expect(result['test-customColor'].DEFAULT).toBe(
+      'oklch(var(--test-customColor, 240 50 60))',
+    )
     // 验证混合使用场景
-    expect(result['test-mixedColors'].DEFAULT).toBe('hsl(var(--test-mixedColors, 0 0% 100%))')
-    expect((result['test-mixedColors'].accent as any).DEFAULT).toBe('rgb(var(--test-mixedColors-accent, 255 128 64))')
-    expect((result['test-mixedColors'].raw as any).DEFAULT).toBe('var(--test-mixedColors-raw, 120 80% 50%)')
-    expect((result['test-mixedColors'].hover as any).DEFAULT).toBe('color-mix(in srgb, var(--test-mixedColors-hover, 120 80% 50%), transparent 20%)')
-    expect(result['test-cssColor'].DEFAULT).toBe('var(--test-cssColor, var(--test-cssColor, 240 50% 60%))')
-    expect(result['test-cssColor'].dark).toBe('var(--test-cssColor-dark, var(--test-cssColor-dark, 240 3.7% 15.9%))')
+    expect(result['test-mixedColors'].DEFAULT).toBe(
+      'hsl(var(--test-mixedColors, 0 0% 100%))',
+    )
+    expect((result['test-mixedColors'].accent as any).DEFAULT).toBe(
+      'rgb(var(--test-mixedColors-accent, 255 128 64))',
+    )
+    expect((result['test-mixedColors'].raw as any).DEFAULT).toBe(
+      'var(--test-mixedColors-raw, 120 80% 50%)',
+    )
+    expect((result['test-mixedColors'].hover as any).DEFAULT).toBe(
+      'color-mix(in srgb, var(--test-mixedColors-hover, 120 80% 50%), transparent 20%)',
+    )
+    expect(result['test-cssColor'].DEFAULT).toBe(
+      'var(--test-cssColor, var(--test-cssColor, 240 50% 60%))',
+    )
+    expect(result['test-cssColor'].dark).toBe(
+      'var(--test-cssColor-dark, var(--test-cssColor-dark, 240 3.7% 15.9%))',
+    )
     expect(processTheme(advancedTheme)).toMatchInlineSnapshot(`
       {
         ".dark": {
@@ -1054,9 +1084,12 @@ describe('tailwind-theme-presets', () => {
         DEFAULT: '0 0% 100%', // 使用全局默认 hsl
         accent: ['255 128 64', 'rgb'] as [string, 'rgb'], // RGB
         raw: ['120 80% 50%'] as [string], // 原始值
-        hover: ['120 80% 50%', (prefixKey: string, value: string) => {
-          return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
-        }] as [string, (prefixKey: string, value: string) => string], // 自定义函数
+        hover: [
+          '120 80% 50%',
+          (prefixKey: string, value: string) => {
+            return `color-mix(in srgb, var(${prefixKey}, ${value}), transparent 20%)`
+          },
+        ] as [string, (prefixKey: string, value: string) => string], // 自定义函数
       },
     }
 
@@ -1139,45 +1172,45 @@ describe('tailwind-theme-presets', () => {
 
   it('custom test', () => {
     const theme = {
-      // secondary: {
-      //   DEFAULT: '240 4.8% 95.9%',
-      //   dark: '240 3.7% 15.9%',
-      //   foreground: {
-      //     DEFAULT: '240 5.9% 10%',
-      //     dark: '0 0% 98%',
-      //   },
-      // },
-      // btn: {
-      //   secondary: {
-      //     DEFAULT: 'hsl(var(--secondary))',
-      //     dark: 'hsl(var(--secondary))',
-      //     hover: {
-      //       DEFAULT: 'hsl(var(--btn-secondary) / 80%)', // bg-btn-secondary/80
-      //       dark: 'hsl(var(--btn-secondary) / 80%)',
-      //     },
-      //     foreground: {
-      //       DEFAULT: 'hsl(var(--secondary-foreground))',
-      //       dark: 'hsl(var(--secondary-foreground))',
-      //     },
-      //   },
-      // },
+      secondary: {
+        DEFAULT: '240 4.8% 95.9%',
+        dark: '240 3.7% 15.9%',
+        foreground: {
+          DEFAULT: '240 5.9% 10%',
+          dark: '0 0% 98%',
+        },
+      },
+      btn: {
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          dark: 'hsl(var(--secondary))',
+          hover: {
+            DEFAULT: 'hsl(var(--btn-secondary) / 80%)', // bg-btn-secondary/80
+            dark: 'hsl(var(--btn-secondary) / 80%)',
+          },
+          foreground: {
+            DEFAULT: 'hsl(var(--secondary-foreground))',
+            dark: 'hsl(var(--secondary-foreground))',
+          },
+        },
+      },
       background: {
         DEFAULT: 'hsl(0 0% 100%)',
         dark: 'hsl(240 10% 3.9%)',
       },
       switch: {
         background: {
-          DEFAULT: 'hsl(var(--background))',
+          DEFAULT: 'hsl(var(--background) / 10%)',
           dark: 'hsl(var(--background))',
         },
-        // checked: {
-        //   DEFAULT: 'hsl(var(--primary))',
-        //   dark: 'hsl(var(--primary))',
-        // },
-        // unchecked: {
-        //   DEFAULT: 'hsl(var(--input))', // hsl(240 3.7% 15.9%)
-        //   dark: 'hsl(var(--input))',
-        // },
+        checked: {
+          DEFAULT: 'hsl(var(--primary))',
+          dark: 'hsl(var(--primary))',
+        },
+        unchecked: {
+          DEFAULT: 'hsl(var(--input))', // hsl(240 3.7% 15.9%)
+          dark: 'hsl(var(--input))',
+        },
       },
     }
 
@@ -1185,40 +1218,72 @@ describe('tailwind-theme-presets', () => {
       {
         ".dark": {
           "--background": "hsl(240 10% 3.9%)",
+          "--btn-secondary": "hsl(var(--secondary))",
+          "--btn-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--btn-secondary-hover": "hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */",
+          "--secondary": "240 3.7% 15.9%",
+          "--secondary-foreground": "0 0% 98%",
           "--switch-background": "var(--background)/* --background */",
+          "--switch-checked": "hsl(var(--primary))",
+          "--switch-unchecked": "hsl(var(--input))",
         },
         ":root": {
           "--background": "hsl(0 0% 100%)",
-          "--switch-background": "var(--background)/* --background */",
+          "--btn-secondary": "hsl(var(--secondary))",
+          "--btn-secondary-foreground": "hsl(var(--secondary-foreground))",
+          "--btn-secondary-hover": "hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */",
+          "--secondary": "240 4.8% 95.9%",
+          "--secondary-foreground": "240 5.9% 10%",
+          "--switch-background": "var(--background) / 10%/* --background */",
+          "--switch-checked": "hsl(var(--primary))",
+          "--switch-unchecked": "hsl(var(--input))",
         },
       }
     `)
 
-    // expect(generateColors(theme)).toMatchInlineSnapshot(`
-    //   {
-    //     "btn-secondary": {
-    //       "DEFAULT": "var(--btn-secondary, var(--secondary)/* --secondary */)",
-    //       "dark": "var(--btn-secondary-dark, var(--secondary)/* --secondary */)",
-    //       "foreground": {
-    //         "DEFAULT": "var(--btn-secondary-foreground, var(--secondary-foreground)/* --secondary-foreground */)",
-    //         "dark": "var(--btn-secondary-foreground-dark, var(--secondary-foreground)/* --secondary-foreground */)",
-    //       },
-    //       "hover": {
-    //         "DEFAULT": "var(--btn-secondary-hover, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
-    //         "dark": "var(--btn-secondary-hover-dark, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
-    //       },
-    //     },
-    //     "secondary": {
-    //       "DEFAULT": "var(--secondary, 240 4.8% 95.9%)",
-    //       "dark": {
-    //         "DEFAULT": "240 3.7% 15.9%",
-    //       },
-    //     },
-    //     "secondary-foreground": {
-    //       "DEFAULT": "hsl(var(--secondary-foreground, 240 5.9% 10%))",
-    //       "dark": "hsl(var(--secondary-foreground-dark, 0 0% 98%))",
-    //     },
-    //   }
-    // `)
+    expect(generateColors(theme)).toMatchInlineSnapshot(`
+      {
+        "background": {
+          "DEFAULT": "var(--background, hsl(0 0% 100%))",
+          "dark": {
+            "DEFAULT": "hsl(240 10% 3.9%)",
+          },
+        },
+        "btn-secondary": {
+          "DEFAULT": "var(--btn-secondary, hsl(var(--secondary)))",
+          "dark": "var(--btn-secondary-dark, hsl(var(--secondary)))",
+          "foreground": {
+            "DEFAULT": "var(--btn-secondary-foreground, hsl(var(--secondary-foreground)))",
+            "dark": "var(--btn-secondary-foreground-dark, hsl(var(--secondary-foreground)))",
+          },
+          "hover": {
+            "DEFAULT": "var(--btn-secondary-hover, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+            "dark": "var(--btn-secondary-hover-dark, hsl(var(--secondary) / 80%)/* --btn-secondary -> --secondary */)",
+          },
+        },
+        "secondary": {
+          "DEFAULT": "var(--secondary, 240 4.8% 95.9%)",
+          "dark": {
+            "DEFAULT": "240 3.7% 15.9%",
+          },
+        },
+        "secondary-foreground": {
+          "DEFAULT": "hsl(var(--secondary-foreground, 240 5.9% 10%))",
+          "dark": "hsl(var(--secondary-foreground-dark, 0 0% 98%))",
+        },
+        "switch-background": {
+          "DEFAULT": "var(--switch-background, var(--background) / 10%/* --background */)",
+          "dark": "var(--switch-background-dark, var(--background)/* --background */)",
+        },
+        "switch-checked": {
+          "DEFAULT": "var(--switch-checked, hsl(var(--primary)))",
+          "dark": "var(--switch-checked-dark, hsl(var(--primary)))",
+        },
+        "switch-unchecked": {
+          "DEFAULT": "var(--switch-unchecked, hsl(var(--input)))",
+          "dark": "var(--switch-unchecked-dark, hsl(var(--input)))",
+        },
+      }
+    `)
   })
 })

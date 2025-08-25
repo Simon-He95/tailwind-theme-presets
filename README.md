@@ -299,23 +299,26 @@ const themeConfig = {
 
       // ⚡ 自定义处理函数
       special: {
-        DEFAULT: ['240 50 60', (prefixKey, value) => {
-          return `oklch(var(${prefixKey}, ${value}))`
-        }]
-      }
-    }
-  }
+        DEFAULT: [
+          '240 50 60',
+          (prefixKey, value) => {
+            return `oklch(var(${prefixKey}, ${value}))`
+          },
+        ],
+      },
+    },
+  },
 }
 ```
 
 #### 生成结果对比
 
-| 配置 | 生成的 CSS 值 |
-|------|---------------|
-| `['255 0 0', 'rgb']` | `rgb(var(--colors-brand-primary, 255 0 0))` |
-| `['240 50% 60%', 'hsl']` | `hsl(var(--colors-brand-secondary, 240 50% 60%))` |
-| `['240 50% 60%', undefined]` | `var(--colors-brand-accent, 240 50% 60%)` |
-| `['240 50 60', customFn]` | `oklch(var(--colors-brand-special, 240 50 60))` |
+| 配置                         | 生成的 CSS 值                                     |
+| ---------------------------- | ------------------------------------------------- |
+| `['255 0 0', 'rgb']`         | `rgb(var(--colors-brand-primary, 255 0 0))`       |
+| `['240 50% 60%', 'hsl']`     | `hsl(var(--colors-brand-secondary, 240 50% 60%))` |
+| `['240 50% 60%', undefined]` | `var(--colors-brand-accent, 240 50% 60%)`         |
+| `['240 50 60', customFn]`    | `oklch(var(--colors-brand-special, 240 50 60))`   |
 
 #### 实际应用场景
 
@@ -327,11 +330,14 @@ const advancedTheme = {
       DEFAULT: '240 5.9% 10%', // 使用全局默认格式
       rgb: ['255 128 64', 'rgb'], // 强制 RGB
       raw: ['240 50% 60%', undefined], // 原始值，不包裹
-      gradient: ['120 80% 50%', (prefix, value) => {
-        return `linear-gradient(45deg, var(${prefix}, ${value}), transparent)`
-      }]
-    }
-  }
+      gradient: [
+        '120 80% 50%',
+        (prefix, value) => {
+          return `linear-gradient(45deg, var(${prefix}, ${value}), transparent)`
+        },
+      ],
+    },
+  },
 }
 ```
 
@@ -443,16 +449,16 @@ module.exports = {
 
 创建一个智能的 Tailwind CSS preset。
 
-| 参数      | 类型                 | 说明                |
-| --------- | -------------------- | ------------------- |
-| `theme`   | `DeepPartial<Theme>` | 🎨 主题配置对象     |
-| `options` | `Options?`           | ⚙️ 可选配置参数     |
+| 参数      | 类型                 | 说明            |
+| --------- | -------------------- | --------------- |
+| `theme`   | `DeepPartial<Theme>` | 🎨 主题配置对象 |
+| `options` | `Options?`           | ⚙️ 可选配置参数 |
 
 **Options 参数：**
 
-| 属性        | 类型               | 默认值  | 说明                      |
-| ----------- | ------------------ | ------- | ------------------------- |
-| `colorRule` | `'rgb' \| 'hsl'`   | `'hsl'` | 🎨 默认颜色包裹函数类型   |
+| 属性        | 类型             | 默认值  | 说明                    |
+| ----------- | ---------------- | ------- | ----------------------- |
+| `colorRule` | `'rgb' \| 'hsl'` | `'hsl'` | 🎨 默认颜色包裹函数类型 |
 
 **返回值：**完整的 Tailwind preset 对象
 
@@ -466,13 +472,13 @@ module.exports = {
 
 **颜色值格式支持：**
 
-| 格式 | 类型 | 示例 | 生成结果 |
-|------|------|------|----------|
-| 简单字符串 | `string` | `'240 5.9% 10%'` | `hsl(var(--prefix, 240 5.9% 10%))` |
-| RGB 强制 | `[string, 'rgb']` | `['255 0 0', 'rgb']` | `rgb(var(--prefix, 255 0 0))` |
-| HSL 强制 | `[string, 'hsl']` | `['240 50% 60%', 'hsl']` | `hsl(var(--prefix, 240 50% 60%))` |
-| 原始值 | `[string, undefined]` | `['240 50% 60%', undefined]` | `var(--prefix, 240 50% 60%)` |
-| 自定义函数 | `[string, Function]` | `['240 50 60', customFn]` | `customFn('--prefix', '240 50 60')` |
+| 格式       | 类型                  | 示例                         | 生成结果                            |
+| ---------- | --------------------- | ---------------------------- | ----------------------------------- |
+| 简单字符串 | `string`              | `'240 5.9% 10%'`             | `hsl(var(--prefix, 240 5.9% 10%))`  |
+| RGB 强制   | `[string, 'rgb']`     | `['255 0 0', 'rgb']`         | `rgb(var(--prefix, 255 0 0))`       |
+| HSL 强制   | `[string, 'hsl']`     | `['240 50% 60%', 'hsl']`     | `hsl(var(--prefix, 240 50% 60%))`   |
+| 原始值     | `[string, undefined]` | `['240 50% 60%', undefined]` | `var(--prefix, 240 50% 60%)`        |
+| 自定义函数 | `[string, Function]`  | `['240 50 60', customFn]`    | `customFn('--prefix', '240 50 60')` |
 
 ### 🔄 `processTheme(theme: Theme)`
 
